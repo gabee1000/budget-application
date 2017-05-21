@@ -11,4 +11,6 @@
     <string name="username_does_not_exist">This username does not exist! Would you like to register it?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="new_password_again">New password again</string>
+    <string name="passwords_are_not_matching">The passwords are not matching!</string>
 </resources>

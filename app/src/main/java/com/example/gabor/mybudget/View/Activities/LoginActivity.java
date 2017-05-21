@@ -10,8 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.gabor.mybudget.Model.Constants.Constants;
 import com.example.gabor.mybudget.Model.Database.UserDatabaseHandler;
-import com.example.gabor.mybudget.Presenter.Utils.BudgetAppCompatActivity;
 import com.example.gabor.mybudget.Presenter.Utils.LauncherAppCompatActivity;
 import com.example.gabor.mybudget.R;
 
@@ -77,7 +77,7 @@ public class LoginActivity extends LauncherAppCompatActivity {
      * <p>Ask with a popup AlertDialog if the not existing username should be registered in the db.</p>
      */
     private void askIfWantToRegister() {
-        AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this, R.style.AlertDialogTheme).create();
+        final AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this, R.style.AlertDialogTheme).create();
         alertDialog.setTitle(getString(R.string.error));
         alertDialog.setMessage(getString(R.string.username_does_not_exist));
         Drawable drawable = getDrawable(android.R.drawable.ic_dialog_alert);
@@ -87,13 +87,16 @@ public class LoginActivity extends LauncherAppCompatActivity {
         alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                String name = mUserName.getText().toString();
+                intent.putExtra(Constants.Extra.REGISTER_NAME, name);
+                startActivity(intent);
             }
         });
         alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO
+                alertDialog.dismiss();
             }
         });
         alertDialog.show();
@@ -109,16 +112,19 @@ public class LoginActivity extends LauncherAppCompatActivity {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     private boolean authenticateUser() {
         String name = mUserName.getText().toString();
         String password = mPassword.getText().toString();
         if (mUserDBHandler.authenticate(name, password)) {
-            // TODO
             Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
             startActivity(intent);
             finish();
         }
-        return true;
+        return false;
     }
 
 }
