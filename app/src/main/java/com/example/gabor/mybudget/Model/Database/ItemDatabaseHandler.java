@@ -111,10 +111,6 @@ public class ItemDatabaseHandler extends DatabaseHandler {
         return item;
     }
 
-    //    UPDATE table_name
-//    SET column1 = value1, column2 = value2...., columnN = valueN
-//    WHERE [condition];
-
     /**
      * Update an item in item_table by its id.
      * @param newItem the item which will replace the old item.
