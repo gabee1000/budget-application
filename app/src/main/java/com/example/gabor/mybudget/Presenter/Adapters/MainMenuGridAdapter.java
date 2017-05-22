@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,7 +15,7 @@ import com.example.gabor.mybudget.R;
  */
 
 public class MainMenuGridAdapter extends BaseAdapter {
-    private final GridItemResources mGridItemResources;
+    public final GridItemResources mGridItemResources;
     private Context mContext;
 
     public MainMenuGridAdapter(Context c) {
@@ -48,24 +47,11 @@ public class MainMenuGridAdapter extends BaseAdapter {
             return convertView;
         }
         return view;
-
-//        ImageView imageView;
-//        if (convertView == null) {
-//            // if it's not recycled, initialize some attributes
-//            imageView = new ImageView(mContext);
-//            imageView.setLayoutParams(new GridView.LayoutParams(200, 200));
-//            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//            imageView.setPadding(8, 8, 8, 8);
-//        } else {
-//            imageView = (ImageView) convertView;
-//        }
-//        imageView.setImageResource(mThumbIds[position]);
-//        return imageView;
     }
 
     // references to our images
-    final class GridItemResources {
-        final static int LENGTH = 4;
+    public final class GridItemResources {
+        public final static int LENGTH = 4;
 
         public final Integer[] mImages = {
                 R.drawable.ic_euro_symbol_black_48dp, R.drawable.ic_euro_symbol_black_48dp,
@@ -73,7 +59,7 @@ public class MainMenuGridAdapter extends BaseAdapter {
         };
 
         public final String[] mDescriptions = {
-                mContext.getString(R.string.add_budget), mContext.getString(R.string.add_item),
+                mContext.getString(R.string.add_budget), mContext.getString(R.string.items),
                 mContext.getString(R.string.show_budget), mContext.getString(R.string.statistics)
         };
     }

@@ -15,7 +15,7 @@
     <string name="passwords_are_not_matching">The passwords are not matching!</string>
     <string name="my_budget">My Budget</string>
     <string name="add_budget">Add Budget</string>
-    <string name="add_item">Add Item</string>
+    <string name="items">Items</string>
     <string name="show_budget">Show Budget</string>
     <string name="statistics">Statistics</string>
 </resources>
