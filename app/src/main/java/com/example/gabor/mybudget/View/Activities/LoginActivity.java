@@ -26,13 +26,6 @@ public class LoginActivity extends LauncherAppCompatActivity {
     private EditText mPassword;
     private EditText mUserName;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        init();
-        actions();
-    }
-
 
     @Override
     protected void init() {

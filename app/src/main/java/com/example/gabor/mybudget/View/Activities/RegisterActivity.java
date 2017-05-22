@@ -31,9 +31,18 @@ public class RegisterActivity extends LauncherAppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init();
         checkForExtras();
-        actions();
+    }
+
+    @Override
+    protected void init() {
+        setContentView(R.layout.register_activity);
+        getSupportActionBar().setTitle(R.string.register);
+        mRegisterToDbButton = (Button) findViewById(R.id.register_to_db_button);
+        mNewUserNameEditText = (EditText) findViewById(R.id.new_user_name_et);
+        mNewPasswordEditText = (EditText) findViewById(R.id.new_password_et);
+        mNewPasswordAgainEditText = (EditText) findViewById(R.id.new_password_again_et);
+        mUserDBHandler = new UserDatabaseHandler(RegisterActivity.this);
     }
 
     private void checkForExtras() {
@@ -43,17 +52,6 @@ public class RegisterActivity extends LauncherAppCompatActivity {
             String newName = bundle.getString(Constants.Extra.REGISTER_NAME);
             mNewUserNameEditText.setText(newName);
         }
-    }
-
-    @Override
-    protected void init() {
-        super.setContentView(R.layout.register_activity);
-        getSupportActionBar().setTitle(R.string.register);
-        mRegisterToDbButton = (Button) findViewById(R.id.register_to_db_button);
-        mNewUserNameEditText = (EditText) findViewById(R.id.new_user_name_et);
-        mNewPasswordEditText = (EditText) findViewById(R.id.new_password_et);
-        mNewPasswordAgainEditText = (EditText) findViewById(R.id.new_password_again_et);
-        mUserDBHandler = new UserDatabaseHandler(RegisterActivity.this);
     }
 
     @Override
@@ -95,7 +93,7 @@ public class RegisterActivity extends LauncherAppCompatActivity {
         String newUser = mNewUserNameEditText.getText().toString();
         String password = mNewPasswordEditText.getText().toString();
         User user = new User(newUser, password);
-        if (mUserDBHandler.addUser(user)) {
+        if (mUserDBHandler.addUser(user) != -1) {
             Toast.makeText(RegisterActivity.this, "[" + newUser + "] created!", Toast.LENGTH_SHORT).show();
             finish();
             return;

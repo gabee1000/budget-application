@@ -15,42 +15,41 @@ import java.util.List;
  */
 
 public class UserDatabaseHandler extends DatabaseHandler {
-    private static final String USER_NAME = "user";
     private static final String TABLE_NAME = "user_table";
     private static final String ID_KEY = "id_key";
+    private static final String USER_NAME = "user";
     private static final String PASSWORD = "password";
 
-    private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + ID_KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + USER_NAME + " TEXT, " + PASSWORD + " TEXT);";
+    private static final String CREATE_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ("
+                    + ID_KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + USER_NAME + " TEXT NOT NULL, "
+                    + PASSWORD + " TEXT NOT NULL,"
+                    + "UNIQUE(" + USER_NAME + ")"
+                    + ");";
 
     public UserDatabaseHandler(Context context) {
-        super(context);
-    }
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_TABLE);
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        super(context, TABLE_NAME, CREATE_TABLE);
     }
 
     /**
      * @param user to insert into table.
-     * @return true if user was added successfully to the db, false otherwise (user already exists).
+     * @return the row ID of the newly inserted row, or -1 if an error occurred (user already exists).
      */
-    public boolean addUser(User user) {
-        if (userNameExists(user.getName())) {
-            return false;
-        }
+    public long addUser(User user) {
+//        if (userNameExists(user.getName())) {
+//            return false;
+//        }
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(USER_NAME, user.getName());
         contentValues.put(PASSWORD, user.getPassword());
-        db.insert(TABLE_NAME, null, contentValues);
+        long result = db.insert(TABLE_NAME, null, contentValues);
         db.close();
-        return true;
+        if (result == -1) {
+            return -1;
+        }
+        return result;
     }
 
     /**
@@ -85,6 +84,7 @@ public class UserDatabaseHandler extends DatabaseHandler {
 
     /**
      * <p>Authenticate the given username and password.</p>
+     *
      * @param name
      * @param password
      * @return True if authentication successful, false otherwise.
