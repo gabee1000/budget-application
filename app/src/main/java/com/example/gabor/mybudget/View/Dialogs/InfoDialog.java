@@ -11,10 +11,6 @@ import com.example.gabor.mybudget.Presenter.Utils.BudgetAppDialog;
 import com.example.gabor.mybudget.R;
 
 /**
- * Created by Gabor on 2017. 05. 25..
- */
-
-/**
  * Should always call setPositiveClickListener method or the application becomes unstable!
  */
 public class InfoDialog extends BudgetAppDialog {
