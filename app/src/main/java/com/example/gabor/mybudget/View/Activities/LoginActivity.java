@@ -1,19 +1,18 @@
 package com.example.gabor.mybudget.View.Activities;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.gabor.mybudget.Model.Constants.Constants;
 import com.example.gabor.mybudget.Model.Database.UserDatabaseHandler;
+import com.example.gabor.mybudget.Presenter.Listeners.DismissDialogClickListener;
+import com.example.gabor.mybudget.Presenter.Listeners.ShouldCreateUserClickListener;
 import com.example.gabor.mybudget.Presenter.Utils.LauncherAppCompatActivity;
 import com.example.gabor.mybudget.R;
+import com.example.gabor.mybudget.View.Dialogs.ApproveDialog;
+import com.example.gabor.mybudget.View.Dialogs.ErrorDialog;
+import com.example.gabor.mybudget.View.Dialogs.InfoDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +57,9 @@ public class LoginActivity extends LauncherAppCompatActivity {
                 if (!userNameExists) {
                     askIfWantToRegister();
                 } else if (userNameExists) {
-                    authenticateUser();
+                    if (!authenticateUser()) {
+                        notifyIncorrectPassword();
+                    }
                 }
             }
 
@@ -67,32 +68,26 @@ public class LoginActivity extends LauncherAppCompatActivity {
     }
 
     /**
+     * <p>Notify the user of the entered incorrect password.</p>
+     */
+    private void notifyIncorrectPassword() {
+        ErrorDialog errorDialog = (ErrorDialog) new ErrorDialog()
+                .setTitle(getString(R.string.error))
+                .setMessage(getString(R.string.incorrect_password));
+        errorDialog.setPositiveClickListener(new DismissDialogClickListener(errorDialog));
+        errorDialog.show(getFragmentManager(), "error");
+    }
+
+    /**
      * <p>Ask with a popup AlertDialog if the not existing username should be registered in the db.</p>
      */
     private void askIfWantToRegister() {
-        final AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this, R.style.AlertDialogTheme).create();
-        alertDialog.setTitle(getString(R.string.error));
-        alertDialog.setMessage(getString(R.string.username_does_not_exist));
-        Drawable drawable = getDrawable(android.R.drawable.ic_dialog_alert);
-        assert drawable != null;
-        drawable.setTint(Color.argb(255, 255, 80, 80));
-        alertDialog.setIcon(drawable);
-        alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, getString(R.string.yes), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                String name = mUserName.getText().toString();
-                intent.putExtra(Constants.Extra.REGISTER_NAME, name);
-                startActivity(intent);
-            }
-        });
-        alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_NEGATIVE, getString(R.string.no), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                alertDialog.dismiss();
-            }
-        });
-        alertDialog.show();
+        ApproveDialog approveDialog = new ApproveDialog();
+        approveDialog.setNegativeClickListener(new DismissDialogClickListener(approveDialog))
+                .setTitle(getString(R.string.create_user))
+                .setMessage(getString(R.string.username_does_not_exist))
+                .setPositiveClickListener(new ShouldCreateUserClickListener(this, mUserName));
+        approveDialog.show(getFragmentManager(), "register");
     }
 
     private boolean validateEditTexts() {
@@ -106,8 +101,9 @@ public class LoginActivity extends LauncherAppCompatActivity {
     }
 
     /**
+     * Logs in the user and finishes this activity if authentication successful.
      *
-     * @return
+     * @return False if authentication failed.
      */
     private boolean authenticateUser() {
         String name = mUserName.getText().toString();
@@ -116,6 +112,7 @@ public class LoginActivity extends LauncherAppCompatActivity {
             Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
             startActivity(intent);
             finish();
+            return true;
         }
         return false;
     }

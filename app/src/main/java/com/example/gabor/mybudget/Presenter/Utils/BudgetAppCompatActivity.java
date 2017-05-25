@@ -1,6 +1,11 @@
 package com.example.gabor.mybudget.Presenter.Utils;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -11,7 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.gabor.mybudget.Model.Constants.Constants;
 import com.example.gabor.mybudget.R;
+import com.example.gabor.mybudget.View.Activities.LoginActivity;
+import com.example.gabor.mybudget.View.Activities.RegisterActivity;
 
 /**
  * Created by Gabor on 2017. 05. 20..
@@ -26,6 +34,10 @@ public abstract class BudgetAppCompatActivity extends AppCompatActivity {
         init();
         actions();
     }
+
+    protected abstract void init();
+
+    protected abstract void actions();
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
@@ -47,8 +59,4 @@ public abstract class BudgetAppCompatActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    protected abstract void init();
-
-    protected abstract void actions();
 }
