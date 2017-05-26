@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.gabor.mybudget.Model.Entities.Item;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Gabor on 2017. 05. 21..
  */
@@ -86,7 +89,7 @@ public class ItemDatabaseHandler extends DatabaseHandler {
     }
 
     /**
-     * <p>Get item object from the table</p>
+     * <p>Get item object from the table.</p>
      *
      * @param where clause for querying the table.
      * @return the item object from the table or null if it does not exist.
@@ -96,25 +99,30 @@ public class ItemDatabaseHandler extends DatabaseHandler {
         Cursor cursor = db.query(TABLE_NAME, null, where, null, null, null, null);
         Item item = null;
         if (cursor.moveToFirst()) {
-            int id = cursor.getInt(cursor.getColumnIndexOrThrow(ID_KEY));
-            String name = cursor.getString(cursor.getColumnIndexOrThrow(ITEM_NAME));
-            int categoryId = cursor.getInt(cursor.getColumnIndexOrThrow(CATEGORY_ID));
-            int lastValue = cursor.getInt(cursor.getColumnIndexOrThrow(LAST_VALUE));
-            boolean isIncome;
-            if (cursor.getInt(cursor.getColumnIndexOrThrow(IS_INCOME)) == 0) {
-                isIncome = false;
-            } else isIncome = true;
-            item = new Item(id, name, categoryId, lastValue, isIncome);
+            item = getSingleItemFromCursor(cursor);
         }
         cursor.close();
         db.close();
         return item;
     }
 
+    private Item getSingleItemFromCursor(Cursor cursor) {
+        int id = cursor.getInt(cursor.getColumnIndexOrThrow(ID_KEY));
+        String name = cursor.getString(cursor.getColumnIndexOrThrow(ITEM_NAME));
+        int categoryId = cursor.getInt(cursor.getColumnIndexOrThrow(CATEGORY_ID));
+        int lastValue = cursor.getInt(cursor.getColumnIndexOrThrow(LAST_VALUE));
+        boolean isIncome;
+        if (cursor.getInt(cursor.getColumnIndexOrThrow(IS_INCOME)) == 0) {
+            isIncome = false;
+        } else isIncome = true;
+        return new Item(id, name, categoryId, lastValue, isIncome);
+    }
+
     /**
      * Update an item in item_table by its id.
+     *
      * @param newItem the item which will replace the old item.
-     * @param id of the item which will be replaced.
+     * @param id      of the item which will be replaced.
      * @return the number of rows affected.
      */
     public int updateItemById(Item newItem, int id) {
@@ -129,5 +137,26 @@ public class ItemDatabaseHandler extends DatabaseHandler {
         int numberOfRowsAffected = db.update(TABLE_NAME, contentValues, where, null);
         db.close();
         return numberOfRowsAffected;
+    }
+
+    /**
+     * <p>Get a new Item list containing all of the existing items from the DB.</p>
+     * @return a list containing all of the Item objects.
+     */
+    @SuppressWarnings("unchecked")
+    public List<Item> getAllItems() {
+        return (List<Item>) getAll();
+    }
+
+    @Override
+    List<Item> getAllEntitiesList(Cursor cursor) {
+        List<Item> list = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                Item item = getSingleItemFromCursor(cursor);
+                list.add(item);
+            } while (cursor.moveToNext());
+        }
+        return list;
     }
 }

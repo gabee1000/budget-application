@@ -14,12 +14,21 @@
     <string name="new_password_again">New password again</string>
     <string name="passwords_are_not_matching">The passwords are not matching!</string>
     <string name="my_budget">My Budget</string>
-    <string name="add_budget">Add Budget</string>
+    <string name="new_transaction">New Transaction</string>
     <string name="items">Items</string>
-    <string name="show_budget">Show Budget</string>
+    <string name="show_transactions">Show Transactions</string>
     <string name="statistics">Statistics</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="create_user">Create User</string>
     <string name="incorrect_password">Incorrect password!</string>
+    <string name="add_new_item">Add new item</string>
+    <string name="name">Name</string>
+    <string name="category_name">Category name</string>
+    <string name="value">Value</string>
+    <string name="is_income">Is income</string>
+    <string name="item_already_exists">Item already exists</string>
+    <string name="the_item">The item</string>
+    <string name="already_exists_in_the_db">already exists in the database!</string>
+    <string name="fields_were_missing">Some fields were missing to create item!</string>
 </resources>

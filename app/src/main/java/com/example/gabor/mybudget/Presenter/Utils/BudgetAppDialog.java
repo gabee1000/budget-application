@@ -58,7 +58,7 @@ public abstract class BudgetAppDialog extends DialogFragment {
         return this;
     }
 
-    public BudgetAppDialog setDialogDrawable(int ResID) {
+    protected BudgetAppDialog setDialogDrawable(int ResID) {
         this.mDrawable = getActivity().getDrawable(ResID);
         return this;
     }

@@ -7,11 +7,11 @@ package com.example.gabor.mybudget.Model.Entities;
 public class Item {
     private final int id;
     private final String name;
-    private final int categoryId;
-    private final int lastValue;
+    private final long categoryId;
+    private final long lastValue;
     private final boolean isIncome;
 
-    public Item(int id, String name, int categoryId, int lastValue, boolean isIncome) {
+    public Item(int id, String name, long categoryId, long lastValue, boolean isIncome) {
         this.id = id;
         this.name = name;
         this.categoryId = categoryId;
@@ -27,11 +27,11 @@ public class Item {
         return name;
     }
 
-    public int getCategoryId() {
+    public long getCategoryId() {
         return categoryId;
     }
 
-    public int getLastValue() {
+    public long getLastValue() {
         return lastValue;
     }
 

@@ -1,5 +1,6 @@
 package com.example.gabor.mybudget.View.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -50,18 +51,23 @@ public class MainMenuActivity extends SignedInAppCompatActivity {
 
     private void processItemClick(AdapterView<?> parent, View v, int position, long id) {
         String selectedItem = mMainMenuGridAdapter.mGridItemResources.mDescriptions[position];
-        final String addBudget = getString(R.string.add_budget);
-        final String addItem = getString(R.string.items);
-        final String showBudget = getString(R.string.show_budget);
+        final String newTransaction = getString(R.string.new_transaction);
+        final String items = getString(R.string.items);
+        final String showTransactions = getString(R.string.show_transactions);
         final String statistics = getString(R.string.statistics);
-        if (selectedItem.equals(addBudget)) {
+        if (selectedItem.equals(newTransaction)) {
 
-        } else if (selectedItem.equals(addItem)) {
-
-        } else if (selectedItem.equals(showBudget)) {
+        } else if (selectedItem.equals(items)) {
+            startItemsActivity();
+        } else if (selectedItem.equals(showTransactions)) {
 
         } else if (selectedItem.equals(statistics)) {
 
         }
+    }
+
+    private void startItemsActivity() {
+        Intent intent = new Intent(MainMenuActivity.this, ItemsActivity.class);
+        startActivity(intent);
     }
 }

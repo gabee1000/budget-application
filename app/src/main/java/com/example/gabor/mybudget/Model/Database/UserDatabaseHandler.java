@@ -70,17 +70,17 @@ public class UserDatabaseHandler extends DatabaseHandler {
         return exists;
     }
 
-    public List<User> getAllUser() {
-        List<User> userList = new ArrayList<>();
-        Cursor cursor = getCursorForAll(TABLE_NAME);
-        do {
-            String name = cursor.getString(cursor.getColumnIndexOrThrow(USER_NAME));
-            String password = cursor.getString(cursor.getColumnIndexOrThrow(PASSWORD));
-            User user = new User(name, password);
-            userList.add(user);
-        } while (cursor.moveToNext());
-        return userList;
-    }
+//    public List<User> getAllUser() {
+//        List<User> userList = new ArrayList<>();
+//        Cursor cursor = getCursorForAll(TABLE_NAME);
+//        do {
+//            String name = cursor.getString(cursor.getColumnIndexOrThrow(USER_NAME));
+//            String password = cursor.getString(cursor.getColumnIndexOrThrow(PASSWORD));
+//            User user = new User(name, password);
+//            userList.add(user);
+//        } while (cursor.moveToNext());
+//        return userList;
+//    }
 
     /**
      * <p>Authenticate the given username and password.</p>
@@ -100,5 +100,10 @@ public class UserDatabaseHandler extends DatabaseHandler {
         }
         db.close();
         return authentic;
+    }
+
+    @Override
+    List<?> getAllEntitiesList(Cursor cursor) {
+        return null;
     }
 }

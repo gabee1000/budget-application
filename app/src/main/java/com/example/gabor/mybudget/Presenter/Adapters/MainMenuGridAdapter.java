@@ -59,8 +59,8 @@ public class MainMenuGridAdapter extends BaseAdapter {
         };
 
         public final String[] mDescriptions = {
-                mContext.getString(R.string.add_budget), mContext.getString(R.string.items),
-                mContext.getString(R.string.show_budget), mContext.getString(R.string.statistics)
+                mContext.getString(R.string.new_transaction), mContext.getString(R.string.items),
+                mContext.getString(R.string.show_transactions), mContext.getString(R.string.statistics)
         };
     }
 

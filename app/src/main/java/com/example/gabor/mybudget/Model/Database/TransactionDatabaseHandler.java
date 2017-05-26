@@ -1,6 +1,9 @@
 package com.example.gabor.mybudget.Model.Database;
 
 import android.content.Context;
+import android.database.Cursor;
+
+import java.util.List;
 
 /**
  * Created by Gabor on 2017. 05. 22..
@@ -29,4 +32,8 @@ public class TransactionDatabaseHandler extends DatabaseHandler {
         super(context, TABLE_NAME, CREATE_TABLE);
     }
 
+    @Override
+    List<?> getAllEntitiesList(Cursor cursor) {
+        return null;
+    }
 }
