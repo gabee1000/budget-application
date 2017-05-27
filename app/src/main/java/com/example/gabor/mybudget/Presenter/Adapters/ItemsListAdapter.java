@@ -52,17 +52,16 @@ public class ItemsListAdapter extends BudgetAppAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            LayoutInflater inflater = LayoutInflater.from(mContext);
-            convertView = inflater.inflate(R.layout.single_textview_item, parent, false);
-            TextView textView = (TextView) convertView.findViewById(R.id.item_text_view);
-            textView.setText(getItem(position).getName());
-        }
-        return convertView;
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        View view = inflater.inflate(R.layout.single_textview_item, parent, false);
+        TextView textView = (TextView) view.findViewById(R.id.item_text_view);
+        textView.setText(getItem(position).getName());
+        return view;
     }
 
     @Override
     public void notifyDBChanged() {
+        mItemList.clear();
         mItemList = mItemDBHandler.getAllItems();
         notifyDataSetChanged();
     }

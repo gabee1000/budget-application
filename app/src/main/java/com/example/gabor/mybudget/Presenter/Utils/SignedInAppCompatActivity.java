@@ -13,8 +13,8 @@ import com.example.gabor.mybudget.Model.Database.ItemDatabaseHandler;
 
 // TODO Navigation drawer
 public abstract class SignedInAppCompatActivity extends BudgetAppCompatActivity {
-    protected ItemDatabaseHandler mItemDBHandler;
-    protected CategoryDatabaseHandler mCategoryDBHandler;
+    public static ItemDatabaseHandler mItemDBHandler;
+    public static CategoryDatabaseHandler mCategoryDBHandler;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

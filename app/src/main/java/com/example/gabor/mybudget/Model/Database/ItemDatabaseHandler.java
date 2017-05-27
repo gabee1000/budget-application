@@ -107,7 +107,7 @@ public class ItemDatabaseHandler extends DatabaseHandler {
     }
 
     private Item getSingleItemFromCursor(Cursor cursor) {
-        int id = cursor.getInt(cursor.getColumnIndexOrThrow(ID_KEY));
+        long id = cursor.getLong(cursor.getColumnIndexOrThrow(ID_KEY));
         String name = cursor.getString(cursor.getColumnIndexOrThrow(ITEM_NAME));
         int categoryId = cursor.getInt(cursor.getColumnIndexOrThrow(CATEGORY_ID));
         int lastValue = cursor.getInt(cursor.getColumnIndexOrThrow(LAST_VALUE));
@@ -125,7 +125,7 @@ public class ItemDatabaseHandler extends DatabaseHandler {
      * @param id      of the item which will be replaced.
      * @return the number of rows affected.
      */
-    public int updateItemById(Item newItem, int id) {
+    public int updateItemById(Item newItem, long id) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(ITEM_NAME, newItem.getName());

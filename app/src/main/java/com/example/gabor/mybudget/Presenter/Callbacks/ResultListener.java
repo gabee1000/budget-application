@@ -7,5 +7,5 @@ import android.content.Intent;
  */
 
 public interface ResultListener {
-    void onResult(int requestCode, Intent data);
+    void onResult(int resultCode, Intent data);
 }

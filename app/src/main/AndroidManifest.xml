@@ -10,16 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".View.Activities.LoginActivity">
-        </activity>
-        <activity android:name=".View.Activities.RegisterActivity" />
-        <activity android:name=".View.Activities.MainMenuActivity" />
-        <activity android:name=".View.Activities.ItemsActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".View.Activities.RegisterActivity" />
+        <activity android:name=".View.Activities.MainMenuActivity" />
+        <activity android:name=".View.Activities.ItemsActivity"></activity>
     </application>
 
 </manifest>

@@ -67,4 +67,34 @@ public class CategoryDatabaseHandler extends DatabaseHandler {
     List<?> getAllEntitiesList(Cursor cursor) {
         return null;
     }
+
+    /**
+     * <p>Get the category name by ID.</p>
+     * @param categoryId ID of the category to query
+     * @return Name of the category, or null if the category does not exist.
+     */
+    public String getCategory(long categoryId) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT " + CATEGORY_NAME
+                + " FROM " + TABLE_NAME
+                + " WHERE " + ID_KEY + " = " + categoryId, null);
+        String categoryName = null;
+        if (cursor.moveToFirst()) {
+            categoryName = cursor.getString(cursor.getColumnIndexOrThrow(CATEGORY_NAME));
+        }
+        cursor.close();
+        db.close();
+        return categoryName;
+    }
+
+    public int updateCategoryById(String newCategoryName, long id) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(CATEGORY_NAME, newCategoryName);
+        String where = ID_KEY + " = " + id;
+        int numberOfRowsAffected = db.update(TABLE_NAME, contentValues, where, null);
+        db.close();
+        return numberOfRowsAffected;
+    }
 }

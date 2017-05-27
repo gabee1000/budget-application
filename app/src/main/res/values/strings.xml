@@ -30,5 +30,6 @@
     <string name="item_already_exists">Item already exists</string>
     <string name="the_item">The item</string>
     <string name="already_exists_in_the_db">already exists in the database!</string>
-    <string name="fields_were_missing">Some fields were missing to create item!</string>
+    <string name="fields_were_missing">Some of the fields were missing to create item!</string>
+    <string name="edit_item">Edit item</string>
 </resources>

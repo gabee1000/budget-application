@@ -9,9 +9,11 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.example.gabor.mybudget.Model.Constants.Constants;
+import com.example.gabor.mybudget.Model.Entities.Item;
 import com.example.gabor.mybudget.Presenter.Callbacks.ResultListener;
 import com.example.gabor.mybudget.Presenter.Listeners.DismissDialogClickListener;
 import com.example.gabor.mybudget.Presenter.Utils.CustomLayoutDialog;
+import com.example.gabor.mybudget.Presenter.Utils.SignedInAppCompatActivity;
 import com.example.gabor.mybudget.R;
 
 /**
@@ -26,6 +28,9 @@ public class NewItemDialog extends CustomLayoutDialog implements DialogInterface
     private ResultListener mResultListener;
     private AlertDialog mDialog;
 
+    private long mCategoryId;
+    private long mItemId;
+
     @Override
     protected void initViews() {
         mItemNameET = (EditText) dialogView.findViewById(R.id.item_name_edit_text);
@@ -33,6 +38,24 @@ public class NewItemDialog extends CustomLayoutDialog implements DialogInterface
         mValueET = (EditText) dialogView.findViewById(R.id.value_edit_text);
         mIsIncome = (CheckBox) dialogView.findViewById(R.id.is_income_checkbox);
         mResultListener = (ResultListener) getActivity();
+        fillEditTextsIfHasArguments();
+    }
+
+    private void fillEditTextsIfHasArguments() {
+        if (getArguments().containsKey(Constants.Extra.EDIT_ITEM)) {
+            Item item = getArguments().getParcelable(Constants.Extra.ITEM);
+            if (item != null) {
+                mItemNameET.setText(item.getName());
+                String categoryName = SignedInAppCompatActivity.mCategoryDBHandler.getCategory(item.getCategoryId());
+                mCategoryId = item.getCategoryId();
+                mItemId = item.getId();
+                if (categoryName != null) {
+                    mCategoryNameET.setText(categoryName);
+                }
+                mValueET.setText(String.valueOf(item.getLastValue()));
+                mIsIncome.setChecked(item.isIncome());
+            }
+        }
     }
 
     @Override
@@ -55,14 +78,18 @@ public class NewItemDialog extends CustomLayoutDialog implements DialogInterface
     }
 
     private void setTitle() {
-        mDialog.setTitle(getString(R.string.add_new_item));
+        if (getArguments().containsKey(Constants.Extra.EDIT_ITEM)) {
+            mDialog.setTitle(getString(R.string.edit_item));
+        } else {
+            mDialog.setTitle(getString(R.string.add_new_item));
+        }
     }
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
         boolean emptyEditText = isEmpty(mItemNameET) || isEmpty(mCategoryNameET) || isEmpty(mValueET);
         if (emptyEditText) {
-            mResultListener.onResult(Constants.RequestCodes.EMPTY_EDIT_TEXTS, null);
+            mResultListener.onResult(Constants.ResultCodes.EMPTY_EDIT_TEXTS, null);
             return;
         }
         Intent intent = new Intent();
@@ -70,7 +97,15 @@ public class NewItemDialog extends CustomLayoutDialog implements DialogInterface
         intent.putExtra(Constants.Extra.CATEGORY_NAME, mCategoryNameET.getText().toString());
         intent.putExtra(Constants.Extra.VALUE, Long.parseLong(mValueET.getText().toString()));
         intent.putExtra(Constants.Extra.IS_INCOME, mIsIncome.isChecked());
-        mResultListener.onResult(Constants.RequestCodes.NEW_ITEM_REQUEST, intent);
+        int resultCode;
+        if (getArguments().containsKey(Constants.Extra.EDIT_ITEM)) {
+            resultCode = Constants.ResultCodes.EDIT_ITEM_REQUEST;
+            intent.putExtra(Constants.Extra.CATEGORY_ID, mCategoryId);
+            intent.putExtra(Constants.Extra.ITEM_ID, mItemId);
+        } else {
+            resultCode = Constants.ResultCodes.NEW_ITEM_REQUEST;
+        }
+        mResultListener.onResult(resultCode, intent);
     }
 
     private boolean isEmpty(EditText editText) {

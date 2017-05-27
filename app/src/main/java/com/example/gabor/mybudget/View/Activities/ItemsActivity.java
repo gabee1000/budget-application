@@ -2,8 +2,12 @@ package com.example.gabor.mybudget.View.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.gabor.mybudget.Model.Constants.Constants;
@@ -17,7 +21,7 @@ import com.example.gabor.mybudget.View.Dialogs.ErrorDialog;
 import com.example.gabor.mybudget.View.Dialogs.NewItemDialog;
 
 /**
- * Created by Gabor on 2017. 05. 26..
+ * Created by Gabor
  */
 
 public class ItemsActivity extends SignedInAppCompatActivity implements ResultListener {
@@ -30,11 +34,20 @@ public class ItemsActivity extends SignedInAppCompatActivity implements ResultLi
         mListView = (ListView) findViewById(R.id.items_list_view);
         mAdapter = new ItemsListAdapter(this, mItemDBHandler);
         mListView.setAdapter(mAdapter);
+        toolbar.setTitle(getString(R.string.items));
     }
 
     @Override
     protected void actions() {
-
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent data = new Intent();
+                Item item = mAdapter.getItem(position);
+                data.putExtra(Constants.Extra.ITEM, item);
+                inflateNewItemDialog(Constants.RequestCodes.INFLATE_ITEM_EDITOR, data);
+            }
+        });
     }
 
     @Override
@@ -47,7 +60,7 @@ public class ItemsActivity extends SignedInAppCompatActivity implements ResultLi
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_new_item:
-                inflateNewItemDialog();
+                inflateNewItemDialog(Constants.RequestCodes.INFLATE_ADD_NEW_ITEM, null);
                 break;
             default:
                 break;
@@ -55,22 +68,47 @@ public class ItemsActivity extends SignedInAppCompatActivity implements ResultLi
         return super.onOptionsItemSelected(item);
     }
 
-    private void inflateNewItemDialog() {
+    /**
+     * <p>Inflate item editor dialog.</p>
+     *
+     * @param inflateCode of the inflation type
+     * @param data
+     */
+    private void inflateNewItemDialog(int inflateCode, @Nullable Intent data) {
+        NewItemDialog newItemDialog = new NewItemDialog();
         Bundle bundle = new Bundle();
         bundle.putInt(Constants.Extra.LAYOUT_RES, R.layout.add_new_item_layout);
-        NewItemDialog newItemDialog = new NewItemDialog();
+        switch (inflateCode) {
+            case Constants.RequestCodes.INFLATE_ADD_NEW_ITEM:
+                break;
+            case Constants.RequestCodes.INFLATE_ITEM_EDITOR:
+                if (data.hasExtra(Constants.Extra.ITEM)) {
+                    bundle.putParcelable(Constants.Extra.ITEM, data.getParcelableExtra(Constants.Extra.ITEM));
+                    bundle.putInt(Constants.Extra.EDIT_ITEM, 1);
+                }
+                break;
+        }
         newItemDialog.setArguments(bundle);
         newItemDialog.show(getFragmentManager(), "new_item");
     }
 
+    /**
+     * <p>Called when the new item dialog finishes by clicking its 'OK' button.</p>
+     *
+     * @param resultCode of the callback
+     * @param data       of the result
+     */
     @Override
-    public void onResult(int requestCode, Intent data) {
-        switch (requestCode) {
-            case Constants.RequestCodes.NEW_ITEM_REQUEST:
-                processNewItemRequest(data);
+    public void onResult(int resultCode, Intent data) {
+        switch (resultCode) {
+            case Constants.ResultCodes.NEW_ITEM_REQUEST:
+                processNewItemRequest(data, -2);
                 break;
-            case Constants.RequestCodes.EMPTY_EDIT_TEXTS:
+            case Constants.ResultCodes.EMPTY_EDIT_TEXTS:
                 showErrorDialog(getString(R.string.fields_were_missing));
+                break;
+            case Constants.ResultCodes.EDIT_ITEM_REQUEST:
+                processNewItemRequest(data, resultCode);
                 break;
             default:
                 break;
@@ -83,11 +121,8 @@ public class ItemsActivity extends SignedInAppCompatActivity implements ResultLi
      * @param data where new Item informations are stored.
      * @return True if item was added successfully to DB, false if item name already exists in the DB or an error occurred.
      */
-    private boolean processNewItemRequest(Intent data) {
-        if (data.hasExtra(Constants.Extra.ITEM_NAME)
-                && data.hasExtra(Constants.Extra.CATEGORY_NAME)
-                && data.hasExtra(Constants.Extra.VALUE)
-                && data.hasExtra(Constants.Extra.IS_INCOME)) {
+    private boolean processNewItemRequest(Intent data, int code) {
+        if (hasEditTextExtras(data)) {
             Bundle bundle = data.getExtras();
             String itemName = bundle.getString(Constants.Extra.ITEM_NAME);
             String categoryName = bundle.getString(Constants.Extra.CATEGORY_NAME);
@@ -99,14 +134,37 @@ public class ItemsActivity extends SignedInAppCompatActivity implements ResultLi
                 return false;
             }
 
-            mCategoryDBHandler.addCategory(categoryName);
-            long categoryId = mCategoryDBHandler.getCategoryId(categoryName);
+            long categoryId = 0;
+            if (code == Constants.ResultCodes.EDIT_ITEM_REQUEST) {
+                if (data.hasExtra(Constants.Extra.CATEGORY_ID)) {
+                    categoryId = bundle.getLong(Constants.Extra.CATEGORY_ID);
+                    mCategoryDBHandler.updateCategoryById(categoryName, categoryId);
+                }
+            } else {
+                mCategoryDBHandler.addCategory(categoryName);
+                categoryId = mCategoryDBHandler.getCategoryId(categoryName);
+            }
+
             Item item = new Item(0, itemName, categoryId, value, isIncome);
-            mItemDBHandler.addItem(item);
+            if (code == Constants.ResultCodes.EDIT_ITEM_REQUEST) {
+                if (data.hasExtra(Constants.Extra.ITEM_ID)) {
+                    long itemId = bundle.getLong(Constants.Extra.ITEM_ID);
+                    mItemDBHandler.updateItemById(item, itemId);
+                }
+            } else {
+                mItemDBHandler.addItem(item);
+            }
             mAdapter.notifyDBChanged();
             return true;
         }
         return false;
+    }
+
+    private boolean hasEditTextExtras(Intent data) {
+        return data.hasExtra(Constants.Extra.ITEM_NAME)
+                && data.hasExtra(Constants.Extra.CATEGORY_NAME)
+                && data.hasExtra(Constants.Extra.VALUE)
+                && data.hasExtra(Constants.Extra.IS_INCOME);
     }
 
     private void showErrorDialog(String message) {

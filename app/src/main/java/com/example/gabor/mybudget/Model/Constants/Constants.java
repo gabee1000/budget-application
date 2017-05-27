@@ -12,6 +12,10 @@ public final class Constants {
         public static final String CATEGORY_NAME = "category_name";
         public static final String VALUE = "value";
         public static final String IS_INCOME = "is_income";
+        public static final String ITEM = "item";
+        public static final String EDIT_ITEM = "edit_item";
+        public static final String CATEGORY_ID = "category_id";
+        public static final String ITEM_ID = "item_id";
     }
 
     public static final class Dialog {
@@ -20,8 +24,14 @@ public final class Constants {
         public static final int APPROVE_DIALOG = 2;
     }
 
-    public static final class RequestCodes {
+    public static final class ResultCodes {
         public static final int NEW_ITEM_REQUEST = 3;
         public static final int EMPTY_EDIT_TEXTS = 4;
+        public static final int EDIT_ITEM_REQUEST = 7;
+    }
+
+    public static final class RequestCodes {
+        public static final int INFLATE_ITEM_EDITOR = 5;
+        public static final int INFLATE_ADD_NEW_ITEM = 6;
     }
 }
