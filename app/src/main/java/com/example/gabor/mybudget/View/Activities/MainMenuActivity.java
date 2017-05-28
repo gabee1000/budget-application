@@ -7,15 +7,18 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import com.example.gabor.mybudget.Model.Constants.Constants;
 import com.example.gabor.mybudget.Presenter.Adapters.MainMenuGridAdapter;
+import com.example.gabor.mybudget.Presenter.Callbacks.ResultListener;
 import com.example.gabor.mybudget.Presenter.Utils.SignedInAppCompatActivity;
 import com.example.gabor.mybudget.R;
+import com.example.gabor.mybudget.View.Dialogs.TransactionDialog;
 
 /**
  * Created by Gabor on 2017. 05. 20..
  */
 
-public class MainMenuActivity extends SignedInAppCompatActivity {
+public class MainMenuActivity extends SignedInAppCompatActivity implements ResultListener {
     private GridView mMenuGridView;
     private MainMenuGridAdapter mMainMenuGridAdapter;
 
@@ -56,13 +59,33 @@ public class MainMenuActivity extends SignedInAppCompatActivity {
         final String showTransactions = getString(R.string.show_transactions);
         final String statistics = getString(R.string.statistics);
         if (selectedItem.equals(newTransaction)) {
-
+            startNewTransactionDialog();
         } else if (selectedItem.equals(items)) {
             startItemsActivity();
         } else if (selectedItem.equals(showTransactions)) {
 
         } else if (selectedItem.equals(statistics)) {
 
+        }
+    }
+
+    private void startNewTransactionDialog() {
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constants.Extra.LAYOUT_RES, R.layout.transaction_dialog_layout);
+        TransactionDialog transactionDialog = new TransactionDialog();
+        transactionDialog.setArguments(bundle);
+        transactionDialog.show(getFragmentManager(), "transaction_dialog");
+    }
+
+    @Override
+    public void onResult(int resultCode, Intent data) {
+        switch (resultCode) {
+            case Constants.ResultCodes.SHOW_AGAIN_TRANSACTION:
+                startNewTransactionDialog();
+                break;
+            case Constants.ResultCodes.EMPTY_EDIT_TEXTS:
+                showErrorDialog("Some of the fields were missing to create transaction!");
+                break;
         }
     }
 

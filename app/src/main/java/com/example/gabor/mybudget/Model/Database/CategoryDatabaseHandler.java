@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -63,9 +64,30 @@ public class CategoryDatabaseHandler extends DatabaseHandler {
         return id;
     }
 
+    /**
+     * <p>Get a new Category list containing all of the existing category names from the DB.</p>
+     * @return a list containing all of the Category names.
+     */
+    @SuppressWarnings("unchecked")
+    public List<String> getAllCategories() {
+        return (List<String>) getAll();
+    }
+
     @Override
-    List<?> getAllEntitiesList(Cursor cursor) {
-        return null;
+    List<String> getAllEntitiesList(Cursor cursor) {
+        List<String> list = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                String categoryName = getSingleCategoryFromCursor(cursor);
+                list.add(categoryName);
+            } while (cursor.moveToNext());
+        }
+        return list;
+    }
+
+    private String getSingleCategoryFromCursor(Cursor cursor) {
+        String categoryName = cursor.getString(cursor.getColumnIndexOrThrow(CATEGORY_NAME));
+        return categoryName;
     }
 
     /**

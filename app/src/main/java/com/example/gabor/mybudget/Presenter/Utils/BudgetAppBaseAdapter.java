@@ -7,10 +7,10 @@ import android.widget.BaseAdapter;
  * Created by Gabor on 2017. 05. 26..
  */
 
-public abstract class BudgetAppAdapter extends BaseAdapter {
+public abstract class BudgetAppBaseAdapter extends BaseAdapter {
     protected Context mContext;
 
-    public BudgetAppAdapter(Context context) {
+    public BudgetAppBaseAdapter(Context context) {
         this.mContext = context;
     }
 

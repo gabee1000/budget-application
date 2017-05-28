@@ -1,8 +1,16 @@
 package com.example.gabor.mybudget.Model.Database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
+import com.example.gabor.mybudget.Model.Entities.Transaction;
+
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +38,27 @@ public class TransactionDatabaseHandler extends DatabaseHandler {
 
     public TransactionDatabaseHandler(Context context) {
         super(context, TABLE_NAME, CREATE_TABLE);
+    }
+
+    /**
+     * <p>Add a new transaction to the DB.</p>
+     * @param newTransaction to add to the DB.
+     * @return The newly created row ID of the transaction, or -1 if it does not exist.
+     */
+    public long addTransaction(Transaction newTransaction) {
+        long row = 0;
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(USER_ID, newTransaction.getUserId());
+        contentValues.put(ITEM_ID, newTransaction.getItemId());
+        contentValues.put(VALUE, newTransaction.getValue());
+//        contentValues.put(CREATED_TIME, DateFormat.getDateTimeInstance().format(new Date(System.currentTimeMillis())));
+        contentValues.put(CREATED_TIME, newTransaction.getCreatedTime());
+        int isIncome = newTransaction.isIncome() ? 1 : 0;
+        contentValues.put(IS_INCOME, isIncome);
+        row = db.insert(TABLE_NAME, null, contentValues);
+        db.close();
+        return row;
     }
 
     @Override

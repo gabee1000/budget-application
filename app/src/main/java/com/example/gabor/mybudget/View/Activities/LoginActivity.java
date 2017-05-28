@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.gabor.mybudget.Model.Constants.Constants;
 import com.example.gabor.mybudget.Model.Database.UserDatabaseHandler;
 import com.example.gabor.mybudget.Presenter.Listeners.DismissDialogClickListener;
 import com.example.gabor.mybudget.Presenter.Listeners.ShouldCreateUserClickListener;
@@ -110,6 +111,7 @@ public class LoginActivity extends LauncherAppCompatActivity {
         String password = mPassword.getText().toString();
         if (mUserDBHandler.authenticate(name, password)) {
             Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
+            intent.putExtra(Constants.Extra.LOGGED_IN_USER, name);
             startActivity(intent);
             finish();
             return true;

@@ -6,9 +6,12 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 
 import com.example.gabor.mybudget.Model.Constants.Constants;
 import com.example.gabor.mybudget.R;
+
+import java.util.List;
 
 /**
  * Created by Gabor on 2017. 05. 26..
@@ -53,4 +56,24 @@ public abstract class CustomLayoutDialog extends DialogFragment {
      * Called after initViews(). Set actions here.
      */
     protected abstract void actions();
+
+    /**
+     * <p>Validate EditTexts.</p>
+     *
+     * @return returns true if characters were written to EditTexts, false otherwise (some EditTexts are empty).
+     */
+    protected boolean validateEditTexts(List<EditText> editTextList) {
+        int errorCount = 0;
+        for (EditText editText : editTextList) {
+            boolean isEmpty = editText.getText().toString().isEmpty();
+            if (isEmpty) {
+                editText.setError(getString(R.string.required_field));
+                errorCount++;
+            }
+        }
+        if (errorCount > 0) {
+            return false;
+        }
+        return true;
+    }
 }

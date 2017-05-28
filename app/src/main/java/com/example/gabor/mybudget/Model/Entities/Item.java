@@ -42,6 +42,11 @@ public class Item implements Parcelable {
         return isIncome;
     }
 
+    @Override
+    public String toString() {
+        return getName();
+    }
+
     public static final Creator<Item> CREATOR = new Creator<Item>() {
         @Override
         public Item createFromParcel(Parcel in) {

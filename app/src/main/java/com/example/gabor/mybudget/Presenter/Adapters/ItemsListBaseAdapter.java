@@ -4,14 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.example.gabor.mybudget.Model.Database.ItemDatabaseHandler;
 import com.example.gabor.mybudget.Model.Entities.Item;
-import com.example.gabor.mybudget.Presenter.Utils.BudgetAppAdapter;
+import com.example.gabor.mybudget.Presenter.Utils.BudgetAppBaseAdapter;
 import com.example.gabor.mybudget.R;
-import com.example.gabor.mybudget.View.Activities.ItemsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +20,12 @@ import java.util.List;
  * Created by Gabor on 2017. 05. 26..
  */
 
-public class ItemsListAdapter extends BudgetAppAdapter {
+// TODO Replaced with an ArrayAdapter! Can be deleted if its no longer needed.
+public class ItemsListBaseAdapter extends BudgetAppBaseAdapter{
     private ItemDatabaseHandler mItemDBHandler;
     private List<Item> mItemList;
 
-    public ItemsListAdapter(Context context, ItemDatabaseHandler itemDBHandler) {
+    public ItemsListBaseAdapter(Context context, ItemDatabaseHandler itemDBHandler) {
         super(context);
         this.mItemDBHandler = itemDBHandler;
         this.mItemList = new ArrayList<>();

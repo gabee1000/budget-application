@@ -16,9 +16,9 @@ import com.example.gabor.mybudget.Presenter.Utils.CustomLayoutDialog;
 import com.example.gabor.mybudget.Presenter.Utils.SignedInAppCompatActivity;
 import com.example.gabor.mybudget.R;
 
-/**
- * Created by Gabor on 2017. 05. 26..
- */
+// TODO Need to fix item editing! When just a simple thing is modified other than the name, e.g. 'Is Income' checkbox, the item already exists dialog appears instead of modifying just that property.
+
+// TODO Change items showing layout to something like 'android.R.layout.simple_list_item_1' for better universal list showing.
 
 public class NewItemDialog extends CustomLayoutDialog implements DialogInterface.OnClickListener {
     private EditText mItemNameET;
@@ -46,7 +46,7 @@ public class NewItemDialog extends CustomLayoutDialog implements DialogInterface
             Item item = getArguments().getParcelable(Constants.Extra.ITEM);
             if (item != null) {
                 mItemNameET.setText(item.getName());
-                String categoryName = SignedInAppCompatActivity.mCategoryDBHandler.getCategory(item.getCategoryId());
+                String categoryName = SignedInAppCompatActivity.categoryDBHandler.getCategory(item.getCategoryId());
                 mCategoryId = item.getCategoryId();
                 mItemId = item.getId();
                 if (categoryName != null) {

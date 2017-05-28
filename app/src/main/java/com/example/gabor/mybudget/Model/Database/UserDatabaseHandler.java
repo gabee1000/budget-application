@@ -106,4 +106,50 @@ public class UserDatabaseHandler extends DatabaseHandler {
     List<?> getAllEntitiesList(Cursor cursor) {
         return null;
     }
+
+    /**
+     * <p>Get the user by name.</p>
+     * @param userName of the user
+     * @return The User object, or null if it does not exist.
+     */
+    public User getUser(String userName) {
+        String where = USER_NAME + " = '" + userName + "'";
+        return getUserWhere(where);
+    }
+
+    /**
+     * <p>Get the user by ID.</p>
+     *
+     * @param id of the user
+     * @return the User object from the table, or null if it does not exist.
+     */
+    public User getUser(int id) {
+        String where = ID_KEY + " = " + id;
+        return getUserWhere(where);
+    }
+
+    /**
+     * <p>Get User object from the table.</p>
+     *
+     * @param where clause for querying the table.
+     * @return the User object from the table or null if it does not exist.
+     */
+    private User getUserWhere(String where) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.query(TABLE_NAME, null, where, null, null, null, null);
+        User user = null;
+        if (cursor.moveToFirst()) {
+            user = getSingleUserFromCursor(cursor);
+        }
+        cursor.close();
+        db.close();
+        return user;
+    }
+
+    private User getSingleUserFromCursor(Cursor cursor) {
+        long id = cursor.getLong(cursor.getColumnIndexOrThrow(ID_KEY));
+        String name = cursor.getString(cursor.getColumnIndexOrThrow(USER_NAME));
+        String password = cursor.getString(cursor.getColumnIndexOrThrow(PASSWORD));
+        return new User(id, name, password);
+    }
 }

@@ -92,7 +92,7 @@ public class RegisterActivity extends LauncherAppCompatActivity {
     private void insertUserToDb() {
         String newUser = mNewUserNameEditText.getText().toString();
         String password = mNewPasswordEditText.getText().toString();
-        User user = new User(newUser, password);
+        User user = new User(0, newUser, password);
         if (mUserDBHandler.addUser(user) != -1) {
             Toast.makeText(RegisterActivity.this, "[" + newUser + "] created!", Toast.LENGTH_SHORT).show();
             finish();

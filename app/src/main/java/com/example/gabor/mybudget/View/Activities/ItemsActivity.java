@@ -2,7 +2,6 @@ package com.example.gabor.mybudget.View.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,27 +11,25 @@ import android.widget.ListView;
 
 import com.example.gabor.mybudget.Model.Constants.Constants;
 import com.example.gabor.mybudget.Model.Entities.Item;
-import com.example.gabor.mybudget.Presenter.Adapters.ItemsListAdapter;
+import com.example.gabor.mybudget.Presenter.Adapters.ItemsListArrayAdapter;
 import com.example.gabor.mybudget.Presenter.Callbacks.ResultListener;
-import com.example.gabor.mybudget.Presenter.Listeners.DismissDialogClickListener;
 import com.example.gabor.mybudget.Presenter.Utils.SignedInAppCompatActivity;
 import com.example.gabor.mybudget.R;
-import com.example.gabor.mybudget.View.Dialogs.ErrorDialog;
 import com.example.gabor.mybudget.View.Dialogs.NewItemDialog;
 
-/**
- * Created by Gabor
- */
+// TODO When inserting anything to DB, use toLowerCase() method on everything to check for existing names in DB.
 
 public class ItemsActivity extends SignedInAppCompatActivity implements ResultListener {
     private ListView mListView;
-    private ItemsListAdapter mAdapter;
+//    private ItemsListBaseAdapter mAdapter;
+    private ItemsListArrayAdapter mAdapter;
 
     @Override
     protected void init() {
         setContentView(R.layout.items_activity);
         mListView = (ListView) findViewById(R.id.items_list_view);
-        mAdapter = new ItemsListAdapter(this, mItemDBHandler);
+//        mAdapter = new ItemsListBaseAdapter(this, itemDBHandler);
+        mAdapter = new ItemsListArrayAdapter(this, android.R.layout.simple_list_item_1, itemDBHandler.getAllItems());
         mListView.setAdapter(mAdapter);
         toolbar.setTitle(getString(R.string.items));
     }
@@ -43,7 +40,8 @@ public class ItemsActivity extends SignedInAppCompatActivity implements ResultLi
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent data = new Intent();
-                Item item = mAdapter.getItem(position);
+//                Item item = mAdapter.getItem(position);
+                Item item = mAdapter.mItemList.get(position);
                 data.putExtra(Constants.Extra.ITEM, item);
                 inflateNewItemDialog(Constants.RequestCodes.INFLATE_ITEM_EDITOR, data);
             }
@@ -129,7 +127,7 @@ public class ItemsActivity extends SignedInAppCompatActivity implements ResultLi
             long value = bundle.getLong(Constants.Extra.VALUE);
             boolean isIncome = bundle.getBoolean(Constants.Extra.IS_INCOME);
 
-            if (mItemDBHandler.getItem(itemName) != null) {
+            if (itemDBHandler.getItem(itemName) != null) {
                 showErrorDialog(getString(R.string.the_item) + " [" + itemName + "] " + getString(R.string.already_exists_in_the_db));
                 return false;
             }
@@ -138,21 +136,21 @@ public class ItemsActivity extends SignedInAppCompatActivity implements ResultLi
             if (code == Constants.ResultCodes.EDIT_ITEM_REQUEST) {
                 if (data.hasExtra(Constants.Extra.CATEGORY_ID)) {
                     categoryId = bundle.getLong(Constants.Extra.CATEGORY_ID);
-                    mCategoryDBHandler.updateCategoryById(categoryName, categoryId);
+                    categoryDBHandler.updateCategoryById(categoryName, categoryId);
                 }
             } else {
-                mCategoryDBHandler.addCategory(categoryName);
-                categoryId = mCategoryDBHandler.getCategoryId(categoryName);
+                categoryDBHandler.addCategory(categoryName);
+                categoryId = categoryDBHandler.getCategoryId(categoryName);
             }
 
             Item item = new Item(0, itemName, categoryId, value, isIncome);
             if (code == Constants.ResultCodes.EDIT_ITEM_REQUEST) {
                 if (data.hasExtra(Constants.Extra.ITEM_ID)) {
                     long itemId = bundle.getLong(Constants.Extra.ITEM_ID);
-                    mItemDBHandler.updateItemById(item, itemId);
+                    itemDBHandler.updateItemById(item, itemId);
                 }
             } else {
-                mItemDBHandler.addItem(item);
+                itemDBHandler.addItem(item);
             }
             mAdapter.notifyDBChanged();
             return true;
@@ -165,13 +163,5 @@ public class ItemsActivity extends SignedInAppCompatActivity implements ResultLi
                 && data.hasExtra(Constants.Extra.CATEGORY_NAME)
                 && data.hasExtra(Constants.Extra.VALUE)
                 && data.hasExtra(Constants.Extra.IS_INCOME);
-    }
-
-    private void showErrorDialog(String message) {
-        ErrorDialog dialog = (ErrorDialog) new ErrorDialog()
-                .setTitle(getString(R.string.error))
-                .setMessage(message);
-        dialog.setPositiveClickListener(new DismissDialogClickListener(dialog));
-        dialog.show(getFragmentManager(), "error");
     }
 }
