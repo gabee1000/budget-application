@@ -115,7 +115,7 @@ public class TransactionDialog extends CustomLayoutDialog implements DialogInter
         long userID = userDBHandler.getUser(SignedInAppCompatActivity.loggedInUser).getId();
         long itemID = itemDBHandler.getItem(itemName).getId();
         // TODO Unify current Date storing format. For example suppose that a user stores the current date in a US_Locale environment, then after switching the device to HU_Locale and storing in that format, handling that can be problematic if we handled only the US_Locale formatting system.
-        String createdTime = DateFormat.getDateTimeInstance().format(new Date(System.currentTimeMillis()));
+        long createdTime = System.currentTimeMillis();
         Transaction transaction = new Transaction(0, userID, itemID, value, createdTime, isIncome);
         transactionDBHandler.addTransaction(transaction);
         mResultListener.onResult(Constants.ResultCodes.SHOW_AGAIN_TRANSACTION, null);

@@ -10,10 +10,10 @@ public class Transaction {
     private final long userId;
     private final long itemId;
     private final long value;
-    private final String createdTime;
+    private final long createdTime;
     private final boolean isIncome;
 
-    public Transaction(long iD, long userId, long itemId, long value, String createdTime, boolean isIncome) {
+    public Transaction(long iD, long userId, long itemId, long value, long createdTime, boolean isIncome) {
         this.iD = iD;
         this.userId = userId;
         this.itemId = itemId;
@@ -38,11 +38,16 @@ public class Transaction {
         return value;
     }
 
-    public String getCreatedTime() {
+    public long getCreatedTime() {
         return createdTime;
     }
 
     public boolean isIncome() {
         return isIncome;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction [ID=" + getId() + ", ItemID=" + getItemId() + ", Value=" + getValue() + "]" ;
     }
 }

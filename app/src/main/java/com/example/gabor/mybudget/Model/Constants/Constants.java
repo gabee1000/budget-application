@@ -17,6 +17,9 @@ public final class Constants {
         public static final String CATEGORY_ID = "category_id";
         public static final String ITEM_ID = "item_id";
         public static final String LOGGED_IN_USER = "logged_in_user";
+        public static final String SELECT_YEAR_AND_MONTH = "select_year_and_month";
+        public static final String SELECT_YEAR = "select_year";
+        public static final String SELECT_MONTH = "select_month";
     }
 
     public static final class Dialog {

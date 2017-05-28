@@ -33,4 +33,7 @@
     <string name="fields_were_missing">Some of the fields were missing to create item!</string>
     <string name="edit_item">Edit item</string>
     <string name="item_name">Item name</string>
+    <string name="some_fields_were_missing_transaction">Some of the fields were missing to create transaction!</string>
+    <string name="pick_a_date">Pick a date</string>
+    <string name="current_time">Current time</string>
 </resources>

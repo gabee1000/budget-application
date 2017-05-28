@@ -63,7 +63,7 @@ public class MainMenuActivity extends SignedInAppCompatActivity implements Resul
         } else if (selectedItem.equals(items)) {
             startItemsActivity();
         } else if (selectedItem.equals(showTransactions)) {
-
+            startTransactionsActivity();
         } else if (selectedItem.equals(statistics)) {
 
         }
@@ -77,6 +77,11 @@ public class MainMenuActivity extends SignedInAppCompatActivity implements Resul
         transactionDialog.show(getFragmentManager(), "transaction_dialog");
     }
 
+    private void startTransactionsActivity() {
+        Intent intent = new Intent(MainMenuActivity.this, TransactionsActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onResult(int resultCode, Intent data) {
         switch (resultCode) {
@@ -84,7 +89,7 @@ public class MainMenuActivity extends SignedInAppCompatActivity implements Resul
                 startNewTransactionDialog();
                 break;
             case Constants.ResultCodes.EMPTY_EDIT_TEXTS:
-                showErrorDialog("Some of the fields were missing to create transaction!");
+                showErrorDialog(getString(R.string.some_fields_were_missing_transaction));
                 break;
         }
     }

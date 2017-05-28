@@ -83,7 +83,7 @@ public class ItemDatabaseHandler extends DatabaseHandler {
      * @param id
      * @return the Item object from the table, or null if it does not exist.
      */
-    public Item getItem(int id) {
+    public Item getItem(long id) {
         String where = ID_KEY + " = " + id;
         return getItemWhere(where);
     }

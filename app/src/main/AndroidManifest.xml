@@ -19,6 +19,7 @@
         <activity android:name=".View.Activities.RegisterActivity"></activity>
         <activity android:name=".View.Activities.MainMenuActivity"></activity>
         <activity android:name=".View.Activities.ItemsActivity"></activity>
+        <activity android:name=".View.Activities.TransactionsActivity"></activity>
     </application>
 
 </manifest>
