@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.gabor.mybudget.Model.Database.ItemDatabaseHandler;
@@ -32,15 +33,19 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView itemTextView;
+
         private final TextView valueTextView;
         private final TextView createdTimeTextView;
+        private final LinearLayout isIncomeMarker;
 
         public ViewHolder(View v) {
             super(v);
+            isIncomeMarker = (LinearLayout) v.findViewById(R.id.is_income_marker);
             itemTextView = (TextView) v.findViewById(R.id.item);
             valueTextView = (TextView) v.findViewById(R.id.value);
             createdTimeTextView = (TextView) v.findViewById(R.id.created_time);
         }
+
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
@@ -75,9 +80,17 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         String itemName = mItemDBHandler.getItem(transactionItem.getItemId()).getName();
         String value = String.valueOf(transactionItem.getValue());
         String createdTime = DateFormat.getDateTimeInstance().format(new Date(transactionItem.getCreatedTime()));
+        boolean isIncome = transactionItem.isIncome();
+
+        if (isIncome) {
+            holder.isIncomeMarker.setBackgroundResource(R.color.green);
+            holder.valueTextView.setText(String.format("+" + value));
+        } else {
+            holder.isIncomeMarker.setBackgroundResource(R.color.red);
+            holder.valueTextView.setText(String.format("-" + value));
+        }
 
         holder.itemTextView.setText(itemName);
-        holder.valueTextView.setText(value);
         holder.createdTimeTextView.setText(createdTime);
     }
 
@@ -85,5 +98,10 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     @Override
     public int getItemCount() {
         return mTransactionDataset.size();
+    }
+
+    public void updateDataSet(int itemInsertedPosition, Transaction newTransaction) {
+        mTransactionDataset.add(newTransaction);
+        notifyItemInserted(itemInsertedPosition);
     }
 }

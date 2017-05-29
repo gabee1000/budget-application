@@ -90,7 +90,7 @@ public class MainMenuActivity extends SignedInAppCompatActivity implements Resul
     @Override
     public void onResult(int resultCode, Intent data) {
         switch (resultCode) {
-            case Constants.ResultCodes.SHOW_AGAIN_TRANSACTION:
+            case Constants.ResultCodes.TRANSACTION_ADDED:
                 startNewTransactionDialog();
                 break;
             case Constants.ResultCodes.EMPTY_EDIT_TEXTS:

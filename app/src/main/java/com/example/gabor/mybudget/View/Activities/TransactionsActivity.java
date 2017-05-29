@@ -3,17 +3,20 @@ package com.example.gabor.mybudget.View.Activities;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.DatePicker;
-import android.widget.Toast;
 
 import com.example.gabor.mybudget.Model.Constants.Constants;
+import com.example.gabor.mybudget.Model.Entities.Transaction;
 import com.example.gabor.mybudget.Presenter.Adapters.TransactionAdapter;
+import com.example.gabor.mybudget.Presenter.Callbacks.ResultListener;
 import com.example.gabor.mybudget.Presenter.Utils.SignedInAppCompatActivity;
 import com.example.gabor.mybudget.R;
+import com.example.gabor.mybudget.View.Dialogs.TransactionDialog;
 import com.example.gabor.mybudget.View.Dialogs.YearMonthPickerDialog;
 import com.example.gabor.mybudget.View.Dialogs.YearPickerDialog;
 
@@ -21,7 +24,7 @@ import com.example.gabor.mybudget.View.Dialogs.YearPickerDialog;
  * Created by Gabor on 2017. 05. 28..
  */
 
-public class TransactionsActivity extends SignedInAppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class TransactionsActivity extends SignedInAppCompatActivity implements DatePickerDialog.OnDateSetListener, ResultListener {
 
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
@@ -60,6 +63,7 @@ public class TransactionsActivity extends SignedInAppCompatActivity implements D
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_new_transaction:
+                startNewTransactionDialog();
                 break;
             case R.id.pick_date:
                 YearMonthPickerDialog yearMonthPickerDialog = new YearMonthPickerDialog();
@@ -88,5 +92,30 @@ public class TransactionsActivity extends SignedInAppCompatActivity implements D
 
     private void showCardViewByDate(int year, int month) {
         mTransactionAdapter.loadDataSet(0, year, month);
+    }
+
+    private void startNewTransactionDialog() {
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constants.Extra.LAYOUT_RES, R.layout.transaction_dialog_layout);
+        bundle.putInt(Constants.Extra.SELECT_YEAR, SELECTED_YEAR);
+        bundle.putInt(Constants.Extra.SELECT_MONTH, SELECTED_MONTH);
+        TransactionDialog transactionDialog = new TransactionDialog();
+        transactionDialog.setArguments(bundle);
+        transactionDialog.show(getFragmentManager(), "transaction_dialog");
+    }
+
+    @Override
+    public void onResult(int resultCode, @Nullable Intent data) {
+        switch (resultCode) {
+            case Constants.ResultCodes.TRANSACTION_ADDED:
+                if (data != null && data.hasExtra(Constants.Extra.TRANSACTION)) {
+                    Transaction newTransaction = data.getExtras().getParcelable(Constants.Extra.TRANSACTION);
+                    mTransactionAdapter.updateDataSet(mTransactionAdapter.getItemCount(), newTransaction);
+                }
+                break;
+            case Constants.ResultCodes.EMPTY_EDIT_TEXTS:
+                showErrorDialog(getString(R.string.some_fields_were_missing_transaction));
+                break;
+        }
     }
 }

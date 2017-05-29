@@ -1,10 +1,13 @@
 package com.example.gabor.mybudget.Model.Entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Gabor on 2017. 05. 28..
  */
 
-public class Transaction {
+public class Transaction implements Parcelable {
 
     private final long iD;
     private final long userId;
@@ -21,6 +24,27 @@ public class Transaction {
         this.createdTime = createdTime;
         this.isIncome = isIncome;
     }
+
+    protected Transaction(Parcel in) {
+        iD = in.readLong();
+        userId = in.readLong();
+        itemId = in.readLong();
+        value = in.readLong();
+        createdTime = in.readLong();
+        isIncome = in.readByte() != 0;
+    }
+
+    public static final Creator<Transaction> CREATOR = new Creator<Transaction>() {
+        @Override
+        public Transaction createFromParcel(Parcel in) {
+            return new Transaction(in);
+        }
+
+        @Override
+        public Transaction[] newArray(int size) {
+            return new Transaction[size];
+        }
+    };
 
     public long getId() {
         return iD;
@@ -49,5 +73,20 @@ public class Transaction {
     @Override
     public String toString() {
         return "Transaction [ID=" + getId() + ", ItemID=" + getItemId() + ", Value=" + getValue() + "]" ;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(iD);
+        dest.writeLong(userId);
+        dest.writeLong(itemId);
+        dest.writeLong(value);
+        dest.writeLong(createdTime);
+        dest.writeByte((byte) (isIncome ? 1 : 0));
     }
 }

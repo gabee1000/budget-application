@@ -20,6 +20,7 @@ public final class Constants {
         public static final String SELECT_YEAR_AND_MONTH = "select_year_and_month";
         public static final String SELECT_YEAR = "select_year";
         public static final String SELECT_MONTH = "select_month";
+        public static final String TRANSACTION = "transaction";
     }
 
     public static final class Dialog {
@@ -32,7 +33,7 @@ public final class Constants {
         public static final int NEW_ITEM_REQUEST = 3;
         public static final int EMPTY_EDIT_TEXTS = 4;
         public static final int EDIT_ITEM_REQUEST = 7;
-        public static final int SHOW_AGAIN_TRANSACTION = 8;
+        public static final int TRANSACTION_ADDED = 8;
     }
 
     public static final class RequestCodes {

@@ -3,11 +3,13 @@ package com.example.gabor.mybudget.View.Dialogs;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.gabor.mybudget.Model.Constants.Constants;
 import com.example.gabor.mybudget.Model.Database.CategoryDatabaseHandler;
@@ -23,9 +25,8 @@ import com.example.gabor.mybudget.Presenter.Utils.CustomLayoutDialog;
 import com.example.gabor.mybudget.Presenter.Utils.SignedInAppCompatActivity;
 import com.example.gabor.mybudget.R;
 
-import java.sql.Date;
-import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class TransactionDialog extends CustomLayoutDialog implements DialogInterface.OnClickListener {
@@ -43,7 +44,19 @@ public class TransactionDialog extends CustomLayoutDialog implements DialogInter
     private CategoryDatabaseHandler categoryDBHandler = SignedInAppCompatActivity.categoryDBHandler;
     private TransactionDatabaseHandler transactionDBHandler = SignedInAppCompatActivity.transactionDBHandler;
     private UserDatabaseHandler userDBHandler = SignedInAppCompatActivity.userDatabaseHandler;
+    private int mSelectedYear = 0;
+    private int mSelectMonth = 0;
 
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null && bundle.containsKey(Constants.Extra.SELECT_YEAR) && bundle.containsKey(Constants.Extra.SELECT_MONTH)) {
+            this.mSelectedYear = bundle.getInt(Constants.Extra.SELECT_YEAR);
+            this.mSelectMonth = bundle.getInt(Constants.Extra.SELECT_MONTH);
+        }
+    }
 
     @Override
     protected void initViews() {
@@ -114,12 +127,20 @@ public class TransactionDialog extends CustomLayoutDialog implements DialogInter
 
         long userID = userDBHandler.getUser(SignedInAppCompatActivity.loggedInUser).getId();
         long itemID = itemDBHandler.getItem(itemName).getId();
-        long createdTime = System.currentTimeMillis();
+
+        long createdTime;
+        if (mSelectedYear <= 0 && mSelectMonth <= 0) {
+            createdTime = System.currentTimeMillis();
+        } else {
+            createdTime = getGivenDateInMillis();
+        }
         Transaction transaction = new Transaction(0, userID, itemID, value, createdTime, isIncome);
         transactionDBHandler.addTransaction(transaction);
-        mResultListener.onResult(Constants.ResultCodes.SHOW_AGAIN_TRANSACTION, null);
-    }
 
+        Intent data = new Intent();
+        data.putExtra(Constants.Extra.TRANSACTION, transaction);
+        mResultListener.onResult(Constants.ResultCodes.TRANSACTION_ADDED, data);
+    }
 
     private boolean areEditTextsEmpty() {
         List<EditText> etList = new ArrayList<>();
@@ -128,4 +149,13 @@ public class TransactionDialog extends CustomLayoutDialog implements DialogInter
         etList.add(mValueET);
         return !validateEditTexts(etList);
     }
+
+    private long getGivenDateInMillis() {
+        Calendar c = Calendar.getInstance();
+        Toast.makeText(getActivity(), String.valueOf(mSelectedYear) + " " + String.valueOf(mSelectMonth), Toast.LENGTH_SHORT).show();
+        c.set(mSelectedYear, mSelectMonth - 1, 1);
+        return c.getTimeInMillis();
+    }
+
+
 }
