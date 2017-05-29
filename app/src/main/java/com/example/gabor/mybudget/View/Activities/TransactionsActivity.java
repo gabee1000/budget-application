@@ -15,6 +15,7 @@ import com.example.gabor.mybudget.Presenter.Adapters.TransactionAdapter;
 import com.example.gabor.mybudget.Presenter.Utils.SignedInAppCompatActivity;
 import com.example.gabor.mybudget.R;
 import com.example.gabor.mybudget.View.Dialogs.YearMonthPickerDialog;
+import com.example.gabor.mybudget.View.Dialogs.YearPickerDialog;
 
 /**
  * Created by Gabor on 2017. 05. 28..
@@ -25,8 +26,8 @@ public class TransactionsActivity extends SignedInAppCompatActivity implements D
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private TransactionAdapter mTransactionAdapter;
-    private static int SELECTED_YEAR = 0;
-    private static int SELECTED_MONTH = 0;
+    protected static int SELECTED_YEAR = 0;
+    protected static int SELECTED_MONTH = 0;
 
     @Override
     protected void init() {
@@ -61,12 +62,17 @@ public class TransactionsActivity extends SignedInAppCompatActivity implements D
             case R.id.add_new_transaction:
                 break;
             case R.id.pick_date:
-                YearMonthPickerDialog pd = new YearMonthPickerDialog();
-                pd.setListener(this);
-                pd.setSelectedYear(SELECTED_YEAR);
-                pd.setSelectedMonth(SELECTED_MONTH);
-                pd.show(getFragmentManager(), "YearMonthPickerDialog");
+                YearMonthPickerDialog yearMonthPickerDialog = new YearMonthPickerDialog();
+                yearMonthPickerDialog.setListener(this);
+                yearMonthPickerDialog.setSelectedYear(SELECTED_YEAR);
+                yearMonthPickerDialog.setSelectedMonth(SELECTED_MONTH);
+                yearMonthPickerDialog.show(getFragmentManager(), "YearMonthPickerDialog");
                 break;
+            case R.id.pick_year:
+                YearPickerDialog yearPickerDialog = new YearPickerDialog();
+                yearPickerDialog.setListener(this);
+                yearPickerDialog.setSelectedYear(SELECTED_YEAR);
+                yearPickerDialog.show(getFragmentManager(), "YearPickerDialog");
             default:
                 break;
         }

@@ -20,6 +20,7 @@
         <activity android:name=".View.Activities.MainMenuActivity"></activity>
         <activity android:name=".View.Activities.ItemsActivity"></activity>
         <activity android:name=".View.Activities.TransactionsActivity"></activity>
+        <activity android:name=".View.Activities.StatisticsActivity"></activity>
     </application>
 
 </manifest>

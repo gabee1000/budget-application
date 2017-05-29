@@ -16,14 +16,13 @@ import com.example.gabor.mybudget.R;
 import java.util.Calendar;
 
 /**
- * Created by Gabor on 2017. 05. 28..
+ * Created by Gabor on 2017. 05. 29..
  */
 
-public class YearMonthPickerDialog extends DialogFragment {
+public class YearPickerDialog extends DialogFragment{
 
     private DatePickerDialog.OnDateSetListener listener;
     private int selectedYear = 0;
-    private int selectedMonth = 0;
 
 
     public void setListener(DatePickerDialog.OnDateSetListener listener) {
@@ -38,17 +37,8 @@ public class YearMonthPickerDialog extends DialogFragment {
 
         Calendar cal = Calendar.getInstance();
 
-        View dialog = inflater.inflate(R.layout.year_month_picker_dialog_layout, null);
-        final NumberPicker monthPicker = (NumberPicker) dialog.findViewById(R.id.picker_month);
+        View dialog = inflater.inflate(R.layout.year_picker_dialog_layout, null);
         final NumberPicker yearPicker = (NumberPicker) dialog.findViewById(R.id.picker_year);
-
-        monthPicker.setMinValue(1);
-        monthPicker.setMaxValue(12);
-        if (selectedMonth > 0) {
-            monthPicker.setValue(selectedMonth);
-        } else {
-            monthPicker.setValue(cal.get(Calendar.MONTH) + 1);
-        }
 
         yearPicker.setMinValue(1971);
         yearPicker.setMaxValue(2099);
@@ -63,15 +53,17 @@ public class YearMonthPickerDialog extends DialogFragment {
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        listener.onDateSet(null, yearPicker.getValue(), monthPicker.getValue(), 0);
+                        listener.onDateSet(null, yearPicker.getValue(), 0, 0);
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        YearMonthPickerDialog.this.getDialog().cancel();
+                        YearPickerDialog.this.getDialog().cancel();
                     }
                 }).setNeutralButton(getString(R.string.current_time), null);
+
         final AlertDialog alertDialog = builder.create();
+
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialog) {
@@ -82,7 +74,6 @@ public class YearMonthPickerDialog extends DialogFragment {
                     public void onClick(View v) {
                         Calendar c = Calendar.getInstance();
                         yearPicker.setValue(c.get(Calendar.YEAR));
-                        monthPicker.setValue(c.get(Calendar.MONTH) + 1);
                     }
                 });
             }
@@ -92,9 +83,5 @@ public class YearMonthPickerDialog extends DialogFragment {
 
     public void setSelectedYear(int selectedYear) {
         this.selectedYear = selectedYear;
-    }
-
-    public void setSelectedMonth(int selectedMonth) {
-        this.selectedMonth = selectedMonth;
     }
 }

@@ -65,7 +65,7 @@ public class MainMenuActivity extends SignedInAppCompatActivity implements Resul
         } else if (selectedItem.equals(showTransactions)) {
             startTransactionsActivity();
         } else if (selectedItem.equals(statistics)) {
-
+            startStatisticsActivity();
         }
     }
 
@@ -79,6 +79,11 @@ public class MainMenuActivity extends SignedInAppCompatActivity implements Resul
 
     private void startTransactionsActivity() {
         Intent intent = new Intent(MainMenuActivity.this, TransactionsActivity.class);
+        startActivity(intent);
+    }
+
+    private void startStatisticsActivity() {
+        Intent intent = new Intent(MainMenuActivity.this, StatisticsActivity.class);
         startActivity(intent);
     }
 

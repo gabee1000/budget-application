@@ -36,4 +36,22 @@
     <string name="some_fields_were_missing_transaction">Some of the fields were missing to create transaction!</string>
     <string name="pick_a_date">Pick a date</string>
     <string name="current_time">Current time</string>
+    <string name="total_income">Total income:</string>
+    <string name="total_expense">Total Expense:</string>
+    <string name="gross_profit">Gross profit:</string>
+
+    <string-array name="months">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
 </resources>

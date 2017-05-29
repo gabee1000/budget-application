@@ -141,4 +141,32 @@ public class TransactionDatabaseHandler extends DatabaseHandler {
         db.close();
         return list;
     }
+
+    /**
+     * <p>Get all the transactions from the DB by year.</p>
+     * @param givenYear Year in 'YYYY' format.
+     * @return Transaction list matching the given year.
+     */
+    public List<Transaction> getAllTransactionByYear(int givenYear) {
+        String year = String.valueOf(givenYear);
+
+        SQLiteDatabase db = getReadableDatabase();
+        List<Transaction> list = new ArrayList<>();
+        String query = "SELECT *" +
+                " FROM " + TABLE_NAME +
+                " WHERE strftime('%Y', " + CREATED_TIME + " / 1000, 'unixepoch') = '" + year + "'";
+        Log.e("QUERY = ", query);
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Transaction transaction = getSingleTransactionFromCursor(cursor);
+                Log.e("transaction= ", transaction.toString());
+                list.add(transaction);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return list;
+    }
 }
