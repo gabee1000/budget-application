@@ -12,7 +12,7 @@ import android.widget.DatePicker;
 
 import com.example.gabor.mybudget.Model.Constants.Constants;
 import com.example.gabor.mybudget.Model.Entities.Transaction;
-import com.example.gabor.mybudget.Presenter.Adapters.TransactionAdapter;
+import com.example.gabor.mybudget.Presenter.Adapters.TransactionRecyclerViewAdapter;
 import com.example.gabor.mybudget.Presenter.Callbacks.ResultListener;
 import com.example.gabor.mybudget.Presenter.Utils.SignedInAppCompatActivity;
 import com.example.gabor.mybudget.R;
@@ -28,7 +28,7 @@ public class TransactionsActivity extends SignedInAppCompatActivity implements D
 
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
-    private TransactionAdapter mTransactionAdapter;
+    private TransactionRecyclerViewAdapter mTransactionRecyclerViewAdapter;
     protected static int SELECTED_YEAR = 0;
     protected static int SELECTED_MONTH = 0;
 
@@ -39,12 +39,13 @@ public class TransactionsActivity extends SignedInAppCompatActivity implements D
     }
 
     private void initCardView() {
+        toolbar.setTitle(R.string.transactions);
         mRecyclerView = (RecyclerView) findViewById(R.id.transaction_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mTransactionAdapter = new TransactionAdapter(System.currentTimeMillis());
-        mRecyclerView.setAdapter(mTransactionAdapter);
+        mTransactionRecyclerViewAdapter = new TransactionRecyclerViewAdapter(System.currentTimeMillis());
+        mRecyclerView.setAdapter(mTransactionRecyclerViewAdapter);
     }
 
     @Override
@@ -91,7 +92,7 @@ public class TransactionsActivity extends SignedInAppCompatActivity implements D
     }
 
     private void showCardViewByDate(int year, int month) {
-        mTransactionAdapter.loadDataSet(0, year, month);
+        mTransactionRecyclerViewAdapter.loadDataSet(0, year, month);
     }
 
     private void startNewTransactionDialog() {
@@ -110,7 +111,7 @@ public class TransactionsActivity extends SignedInAppCompatActivity implements D
             case Constants.ResultCodes.TRANSACTION_ADDED:
                 if (data != null && data.hasExtra(Constants.Extra.TRANSACTION)) {
                     Transaction newTransaction = data.getExtras().getParcelable(Constants.Extra.TRANSACTION);
-                    mTransactionAdapter.updateDataSet(mTransactionAdapter.getItemCount(), newTransaction);
+                    mTransactionRecyclerViewAdapter.updateDataSet(mTransactionRecyclerViewAdapter.getItemCount(), newTransaction);
                 }
                 break;
             case Constants.ResultCodes.EMPTY_EDIT_TEXTS:

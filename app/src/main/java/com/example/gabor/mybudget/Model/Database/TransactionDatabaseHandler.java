@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.example.gabor.mybudget.Model.Entities.CategoryAndValue;
 import com.example.gabor.mybudget.Model.Entities.Transaction;
 
 import java.util.ArrayList;
@@ -144,6 +145,7 @@ public class TransactionDatabaseHandler extends DatabaseHandler {
 
     /**
      * <p>Get all the transactions from the DB by year.</p>
+     *
      * @param givenYear Year in 'YYYY' format.
      * @return Transaction list matching the given year.
      */
@@ -165,6 +167,50 @@ public class TransactionDatabaseHandler extends DatabaseHandler {
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
+        db.close();
+        return list;
+    }
+
+    public List<CategoryAndValue> getTransactionsForStatistics(int givenYear, int givenMonth, boolean givenIsIncome) {
+        String query = null;
+        int isIncome = givenIsIncome ? 1 : 0;
+        if (givenYear > 0 && givenMonth <= 0) {
+            query = "SELECT category_name, sum(value) AS sum\n" +
+                    "FROM " + TABLE_NAME + " \n" +
+                    "LEFT JOIN item_table ON " + TABLE_NAME + "." + ITEM_ID + " = item_table.id_key\n" +
+                    "LEFT JOIN category_table ON item_table.category_id = category_table.id_key\n" +
+                    "WHERE " + TABLE_NAME + "." + IS_INCOME + " = " + isIncome + " \n" +
+                    "AND strftime('%Y', " + TABLE_NAME + "." + CREATED_TIME + " / 1000, 'unixepoch') = '" + givenYear + "'\n" +
+                    "GROUP BY category_name";
+        } else if (givenYear > 0 && givenMonth > 0) {
+            String monthString = String.valueOf(givenMonth);
+            if (givenMonth < 10) {
+                monthString = "0" + givenMonth;
+            }
+            query = "SELECT category_name, sum(value) AS sum\n" +
+                    "FROM " + TABLE_NAME + " \n" +
+                    "LEFT JOIN item_table ON " + TABLE_NAME + "." + ITEM_ID + " = item_table.id_key\n" +
+                    "LEFT JOIN category_table ON item_table.category_id = category_table.id_key\n" +
+                    "WHERE " + TABLE_NAME + "." + IS_INCOME + " = " + isIncome + " \n" +
+                    "AND strftime('%Y', " + TABLE_NAME + "." + CREATED_TIME + " / 1000, 'unixepoch') = '" + givenYear + "'\n" +
+                    "AND strftime('%m', " + TABLE_NAME + "." + CREATED_TIME + " / 1000, 'unixepoch') = '" + monthString + "'\n" +
+                    "GROUP BY category_name";
+        }
+        return queryFromTables(query, givenIsIncome);
+    }
+
+    private List<CategoryAndValue> queryFromTables(String query, boolean givenIsIncome) {
+        List<CategoryAndValue> list = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                String categoryName = cursor.getString(cursor.getColumnIndexOrThrow("category_name"));
+                long value = cursor.getLong(cursor.getColumnIndexOrThrow("sum"));
+                list.add(new CategoryAndValue(0, categoryName, value, givenIsIncome));
+            } while (cursor.moveToNext());
+        }
         cursor.close();
         db.close();
         return list;

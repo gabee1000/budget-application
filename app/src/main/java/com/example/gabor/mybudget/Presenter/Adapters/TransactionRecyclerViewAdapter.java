@@ -15,33 +15,31 @@ import com.example.gabor.mybudget.R;
 
 import java.sql.Date;
 import java.text.DateFormat;
-import java.util.Calendar;
 import java.util.List;
 
 /**
  * Created by Gabor on 2017. 05. 28..
  */
 
-public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.ViewHolder> {
-    private final TransactionDatabaseHandler mTransactionDBHandler;
-    private final ItemDatabaseHandler mItemDBHandler;
-    private List<Transaction> mTransactionDataset;
+public class TransactionRecyclerViewAdapter extends RecyclerView.Adapter<TransactionRecyclerViewAdapter.ViewHolder> {
+    protected final TransactionDatabaseHandler mTransactionDBHandler;
+    protected final ItemDatabaseHandler mItemDBHandler;
+    protected List<Transaction> mTransactionDataSet;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private final TextView itemTextView;
-
-        private final TextView valueTextView;
+        protected final TextView nameTextView;
+        protected final TextView valueTextView;
         private final TextView createdTimeTextView;
-        private final LinearLayout isIncomeMarker;
+        protected final LinearLayout isIncomeMarker;
 
         public ViewHolder(View v) {
             super(v);
             isIncomeMarker = (LinearLayout) v.findViewById(R.id.is_income_marker);
-            itemTextView = (TextView) v.findViewById(R.id.item);
+            nameTextView = (TextView) v.findViewById(R.id.name);
             valueTextView = (TextView) v.findViewById(R.id.value);
             createdTimeTextView = (TextView) v.findViewById(R.id.created_time);
         }
@@ -49,20 +47,20 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public TransactionAdapter(long time) {
+    public TransactionRecyclerViewAdapter(long time) {
         this.mTransactionDBHandler = SignedInAppCompatActivity.transactionDBHandler;
         this.mItemDBHandler = SignedInAppCompatActivity.itemDBHandler;
         loadDataSet(time, 0, 0);
     }
 
     public void loadDataSet(long time, int year, int month) {
-        mTransactionDataset = mTransactionDBHandler.getAllTransactionByDate(time, year, month);
+        mTransactionDataSet = mTransactionDBHandler.getAllTransactionByDate(time, year, month);
         notifyDataSetChanged();
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public TransactionAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TransactionRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_transaction_row, parent, false);
         // set the view's size, margins, paddings and layout parameters
@@ -76,7 +74,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        Transaction transactionItem = mTransactionDataset.get(position);
+        Transaction transactionItem = mTransactionDataSet.get(position);
         String itemName = mItemDBHandler.getItem(transactionItem.getItemId()).getName();
         String value = String.valueOf(transactionItem.getValue());
         String createdTime = DateFormat.getDateTimeInstance().format(new Date(transactionItem.getCreatedTime()));
@@ -90,18 +88,18 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             holder.valueTextView.setText(String.format("-" + value));
         }
 
-        holder.itemTextView.setText(itemName);
+        holder.nameTextView.setText(itemName);
         holder.createdTimeTextView.setText(createdTime);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mTransactionDataset.size();
+        return mTransactionDataSet.size();
     }
 
     public void updateDataSet(int itemInsertedPosition, Transaction newTransaction) {
-        mTransactionDataset.add(newTransaction);
+        mTransactionDataSet.add(newTransaction);
         notifyItemInserted(itemInsertedPosition);
     }
 }
