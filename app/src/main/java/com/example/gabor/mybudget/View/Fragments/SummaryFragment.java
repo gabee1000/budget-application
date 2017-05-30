@@ -19,6 +19,7 @@ import com.example.gabor.mybudget.Presenter.Utils.SignedInAppCompatActivity;
 import com.example.gabor.mybudget.R;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class SummaryFragment extends Fragment {
@@ -55,7 +56,48 @@ public class SummaryFragment extends Fragment {
         this.mSelectedYear = selectedYear;
         this.mCalendar = Calendar.getInstance();
         mCalendar.set(Calendar.YEAR, selectedYear);
-        mCalendar.set(Calendar.MONTH, mMonth);
+        int field = mMonth;
+        switch (mMonth) {
+            case 1:
+                field = Calendar.JANUARY;
+                break;
+            case 2:
+                field = Calendar.FEBRUARY;
+                break;
+            case 3:
+                field = Calendar.MARCH;
+                break;
+            case 4:
+                field = Calendar.APRIL;
+                break;
+            case 5:
+                field = Calendar.MAY;
+                break;
+            case 6:
+                field = Calendar.JUNE;
+                break;
+            case 7:
+                field = Calendar.JULY;
+                break;
+            case 8:
+                field = Calendar.AUGUST;
+                break;
+            case 9:
+                field = Calendar.SEPTEMBER;
+                break;
+            case 10:
+                field = Calendar.OCTOBER;
+                break;
+            case 11:
+                field = Calendar.NOVEMBER;
+                break;
+            case 12:
+                field = Calendar.DECEMBER;
+                break;
+            default:
+                break;
+        }
+        mCalendar.set(Calendar.MONTH, field);
     }
 
     private void showYearSummary() {
@@ -66,6 +108,7 @@ public class SummaryFragment extends Fragment {
 
     private void showMonthSummary() {
         List<Transaction> list = mTransactionDBHandler.getAllTransactionByDate(null, mSelectedYear, mMonth);
+        System.out.println(mCalendar.get(Calendar.YEAR) + " " + mCalendar.get(Calendar.MONTH) + " SELECTEDMONTH=" + mMonth);
         setRecyclerViewAdapter(mCalendar.getTimeInMillis());
         computeFinance(list);
     }
