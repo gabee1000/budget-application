@@ -32,6 +32,7 @@ public class StatisticsActivity extends TransactionsActivity implements DatePick
         mSummaryViewPager = (ViewPager) findViewById(R.id.summary_view_pager);
         mStatisticsPagerAdapter = new StatisticsPagerAdapter(this, getSupportFragmentManager(), SELECTED_YEAR);
         mSummaryViewPager.setAdapter(mStatisticsPagerAdapter);
+        mSummaryViewPager.setPageMargin(60);
         mTabLayout = (TabLayout) findViewById(R.id.tablayout);
         mTabLayout.setupWithViewPager(mSummaryViewPager);
         mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);

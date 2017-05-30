@@ -40,6 +40,9 @@
     <string name="total_expense">Total Expense:</string>
     <string name="gross_profit">Gross profit:</string>
     <string name="transactions">Transactions</string>
+    <string name="currency">Currency:</string>
+    <string name="huf">HUF</string>
+    <string name="log_out">Log out</string>
 
     <string-array name="months">
         <item>January</item>

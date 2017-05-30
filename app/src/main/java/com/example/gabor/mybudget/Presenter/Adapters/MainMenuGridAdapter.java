@@ -54,8 +54,8 @@ public class MainMenuGridAdapter extends BaseAdapter {
         public final static int LENGTH = 4;
 
         public final Integer[] mImages = {
-                R.drawable.ic_euro_symbol_black_48dp, R.drawable.ic_euro_symbol_black_48dp,
-                R.drawable.ic_euro_symbol_black_48dp, R.drawable.ic_euro_symbol_black_48dp
+                R.drawable.ic_note_add_white_48dp, R.drawable.ic_description_white_48dp,
+                R.drawable.ic_find_in_page_white_48dp, R.drawable.ic_assessment_white_48dp
         };
 
         public final String[] mDescriptions = {

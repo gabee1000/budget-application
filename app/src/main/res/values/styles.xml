@@ -5,18 +5,23 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorSecondary</item>
     </style>
 
     <style name="ToolbarTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:textColorPrimary">@android:color/holo_purple</item>
-        <item name="android:textColorSecondary">@android:color/holo_green_dark</item>
-        <item name="android:actionMenuTextColor">@android:color/darker_gray</item>
-        <item name="android:background">@color/colorPrimary</item>
-        <item name="android:textColor">@android:color/holo_blue_bright</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
 
-    <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:background">@android:color/white</item>
+    <!--<style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">-->
+        <!--<item name="android:background">@android:color/white</item>-->
+    <!--</style>-->
+
+    <style name="ButtonTheme" parent="Widget.AppCompat.Button" >
+        <item name="background">@color/colorSecondaryDark</item>
+        <item name="android:backgroundTint">@color/colorSecondaryDark</item>
+        <item name="android:colorBackground">@color/colorSecondaryDark</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 </resources>

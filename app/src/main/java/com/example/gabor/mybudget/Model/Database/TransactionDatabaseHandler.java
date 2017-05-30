@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.example.gabor.mybudget.Model.Entities.CategoryAndValue;
 import com.example.gabor.mybudget.Model.Entities.Transaction;
+import com.example.gabor.mybudget.Presenter.Utils.SignedInAppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,6 +27,9 @@ public class TransactionDatabaseHandler extends DatabaseHandler {
     private static final String CREATED_TIME = "created_time";
     private static final String IS_INCOME = "is_income";
 
+    private final String mLoggedInUser;
+    private final long mLoggedInUserId;
+
     private static final String CREATE_TABLE =
             "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ("
                     + ID_KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -38,6 +42,8 @@ public class TransactionDatabaseHandler extends DatabaseHandler {
 
     public TransactionDatabaseHandler(Context context) {
         super(context, TABLE_NAME, CREATE_TABLE);
+        this.mLoggedInUser = SignedInAppCompatActivity.loggedInUser;
+        this.mLoggedInUserId = SignedInAppCompatActivity.loggedInUserId;
     }
 
     /**
@@ -127,7 +133,8 @@ public class TransactionDatabaseHandler extends DatabaseHandler {
         String query = "SELECT *" +
                 " FROM " + TABLE_NAME +
                 " WHERE strftime('%Y', " + CREATED_TIME + " / 1000, 'unixepoch') = '" + year + "' AND " +
-                "strftime('%m', " + CREATED_TIME + " / 1000, 'unixepoch') = '" + month + "'";
+                "strftime('%m', " + CREATED_TIME + " / 1000, 'unixepoch') = '" + month + "' AND " +
+                USER_ID + " = " + mLoggedInUserId;
         Log.e("QUERY = ", query);
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
@@ -156,7 +163,8 @@ public class TransactionDatabaseHandler extends DatabaseHandler {
         List<Transaction> list = new ArrayList<>();
         String query = "SELECT *" +
                 " FROM " + TABLE_NAME +
-                " WHERE strftime('%Y', " + CREATED_TIME + " / 1000, 'unixepoch') = '" + year + "'";
+                " WHERE strftime('%Y', " + CREATED_TIME + " / 1000, 'unixepoch') = '" + year + "' AND " +
+                USER_ID + " = " + mLoggedInUserId;
         Log.e("QUERY = ", query);
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()) {
@@ -181,8 +189,9 @@ public class TransactionDatabaseHandler extends DatabaseHandler {
                     "LEFT JOIN item_table ON " + TABLE_NAME + "." + ITEM_ID + " = item_table.id_key\n" +
                     "LEFT JOIN category_table ON item_table.category_id = category_table.id_key\n" +
                     "WHERE " + TABLE_NAME + "." + IS_INCOME + " = " + isIncome + " \n" +
-                    "AND strftime('%Y', " + TABLE_NAME + "." + CREATED_TIME + " / 1000, 'unixepoch') = '" + givenYear + "'\n" +
-                    "GROUP BY category_name";
+                    "AND strftime('%Y', " + TABLE_NAME + "." + CREATED_TIME + " / 1000, 'unixepoch') = '" + givenYear + "' AND " +
+                    USER_ID + " = " + mLoggedInUserId +
+                    " GROUP BY category_name";
         } else if (givenYear > 0 && givenMonth > 0) {
             String monthString = String.valueOf(givenMonth);
             if (givenMonth < 10) {
@@ -194,8 +203,9 @@ public class TransactionDatabaseHandler extends DatabaseHandler {
                     "LEFT JOIN category_table ON item_table.category_id = category_table.id_key\n" +
                     "WHERE " + TABLE_NAME + "." + IS_INCOME + " = " + isIncome + " \n" +
                     "AND strftime('%Y', " + TABLE_NAME + "." + CREATED_TIME + " / 1000, 'unixepoch') = '" + givenYear + "'\n" +
-                    "AND strftime('%m', " + TABLE_NAME + "." + CREATED_TIME + " / 1000, 'unixepoch') = '" + monthString + "'\n" +
-                    "GROUP BY category_name";
+                    "AND strftime('%m', " + TABLE_NAME + "." + CREATED_TIME + " / 1000, 'unixepoch') = '" + monthString + "' AND " +
+                    USER_ID + " = " + mLoggedInUserId +
+                    " GROUP BY category_name";
         }
         return queryFromTables(query, givenIsIncome);
     }

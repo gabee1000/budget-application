@@ -125,7 +125,7 @@ public class TransactionDialog extends CustomLayoutDialog implements DialogInter
             itemDBHandler.updateItemById(newItem, itemId);
         }
 
-        long userID = userDBHandler.getUser(SignedInAppCompatActivity.loggedInUser).getId();
+        long userID = SignedInAppCompatActivity.loggedInUserId;
         long itemID = itemDBHandler.getItem(itemName).getId();
 
         long createdTime;

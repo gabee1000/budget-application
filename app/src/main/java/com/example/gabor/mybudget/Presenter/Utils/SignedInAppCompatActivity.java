@@ -21,6 +21,7 @@ public abstract class SignedInAppCompatActivity extends BudgetAppCompatActivity 
     public static UserDatabaseHandler userDatabaseHandler;
 
     public static String loggedInUser;
+    public static long loggedInUserId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public abstract class SignedInAppCompatActivity extends BudgetAppCompatActivity 
         userDatabaseHandler = new UserDatabaseHandler(this);
         if (getIntent().hasExtra(Constants.Extra.LOGGED_IN_USER)) {
             loggedInUser = getIntent().getExtras().getString(Constants.Extra.LOGGED_IN_USER);
+            loggedInUserId = userDatabaseHandler.getUser(loggedInUser).getId();
         }
         super.onCreate(savedInstanceState);
     }

@@ -13,6 +13,9 @@
         android:id="@+id/tablayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryLight"
+        app:tabSelectedTextColor="@color/colorSecondary"
+        app:tabTextColor="@color/colorLargeBlackText"
         android:scrollbarSize="3dp">
     </android.support.design.widget.TabLayout>
 

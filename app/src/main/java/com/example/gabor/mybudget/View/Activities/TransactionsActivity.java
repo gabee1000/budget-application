@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 import com.example.gabor.mybudget.Model.Constants.Constants;
 import com.example.gabor.mybudget.Model.Entities.Transaction;
@@ -64,6 +65,7 @@ public class TransactionsActivity extends SignedInAppCompatActivity implements D
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_new_transaction:
+                Toast.makeText(this, SELECTED_YEAR + " " + SELECTED_MONTH, Toast.LENGTH_SHORT).show();
                 startNewTransactionDialog();
                 break;
             case R.id.pick_date:

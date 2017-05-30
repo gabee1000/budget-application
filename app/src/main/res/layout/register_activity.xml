@@ -8,5 +8,14 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
-    <include layout="@layout/form_register" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/form_register" />
+    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

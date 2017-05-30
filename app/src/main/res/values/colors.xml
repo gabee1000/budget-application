@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#81d4fa</color>
+    <color name="colorPrimaryLight">#b6ffff</color>
+    <color name="colorPrimaryDark">#4ba3c7</color>
+
+    <color name="colorSecondary">#2962ff</color>
+    <color name="colorSecondaryLight">#768fff</color>
+    <color name="colorSecondaryDark">#0039cb</color>
+
+    <color name="colorLargeBlackText">#ad000000</color>
+    <color name="colorNormalBlackText">#ca000000</color>
+
     <color name="colorErrorDialog">#e57373</color>
     <color name="colorInfoDialog">#9e9e9e</color>
     <color name="colorQuestionDrawable">#8c9eff</color>
+
+
+
     <color name="green">#64dd17</color>
     <color name="red">#ff1744</color>
 </resources>
