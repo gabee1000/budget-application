@@ -10,10 +10,6 @@ import com.example.gabor.mybudget.Model.Entities.Item;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Gabor on 2017. 05. 21..
- */
-
 public class ItemDatabaseHandler extends DatabaseHandler {
 
     private static final String TABLE_NAME = "item_table";

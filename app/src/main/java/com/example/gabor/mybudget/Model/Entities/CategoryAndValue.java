@@ -2,10 +2,6 @@ package com.example.gabor.mybudget.Model.Entities;
 
 import android.os.Parcel;
 
-/**
- * Created by Gabor on 2017. 05. 30..
- */
-
 public class CategoryAndValue extends Category {
     private long value;
     private boolean isIncome;

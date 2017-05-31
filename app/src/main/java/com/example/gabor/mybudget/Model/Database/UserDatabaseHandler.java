@@ -10,10 +10,6 @@ import com.example.gabor.mybudget.Model.Entities.User;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Gabor on 2017. 05. 20..
- */
-
 public class UserDatabaseHandler extends DatabaseHandler {
     private static final String TABLE_NAME = "user_table";
     private static final String ID_KEY = "id_key";

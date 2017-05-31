@@ -6,10 +6,6 @@ import android.content.DialogInterface;
 import com.example.gabor.mybudget.Presenter.Utils.BudgetAppDialog;
 import com.example.gabor.mybudget.View.Dialogs.ApproveDialog;
 
-/**
- * Created by Gabor on 2017. 05. 25..
- */
-
 public class DismissDialogClickListener implements DialogInterface.OnClickListener {
     private final DialogFragment dialog;
 

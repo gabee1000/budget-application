@@ -17,10 +17,6 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.util.List;
 
-/**
- * Created by Gabor on 2017. 05. 28..
- */
-
 public class TransactionRecyclerViewAdapter extends RecyclerView.Adapter<TransactionRecyclerViewAdapter.ViewHolder> {
     protected final TransactionDatabaseHandler mTransactionDBHandler;
     protected final ItemDatabaseHandler mItemDBHandler;

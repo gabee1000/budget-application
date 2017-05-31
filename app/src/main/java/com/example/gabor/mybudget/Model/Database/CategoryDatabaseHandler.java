@@ -8,10 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Gabor on 2017. 05. 22..
- */
-
 public class CategoryDatabaseHandler extends DatabaseHandler {
     private static final String TABLE_NAME = "category_table";
     private static final String ID_KEY = "id_key";

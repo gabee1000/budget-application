@@ -16,10 +16,6 @@ import com.example.gabor.mybudget.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Gabor on 2017. 05. 26..
- */
-
 // TODO Replaced with an ArrayAdapter! Can be deleted if its no longer needed.
 public class ItemsListBaseAdapter extends BudgetAppBaseAdapter{
     private ItemDatabaseHandler mItemDBHandler;

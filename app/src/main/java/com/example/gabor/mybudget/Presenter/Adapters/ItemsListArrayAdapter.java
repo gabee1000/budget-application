@@ -12,10 +12,6 @@ import com.example.gabor.mybudget.Presenter.Utils.SignedInAppCompatActivity;
 
 import java.util.List;
 
-/**
- * Created by Gabor on 2017. 05. 27..
- */
-
 public class ItemsListArrayAdapter extends BudgetAppArrayAdapter {
     public List<Item> mItemList;
     private final ItemDatabaseHandler mItemDBHandler;

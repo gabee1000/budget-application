@@ -21,10 +21,6 @@ import com.example.gabor.mybudget.R;
 import com.example.gabor.mybudget.View.Activities.LoginActivity;
 import com.example.gabor.mybudget.View.Activities.RegisterActivity;
 
-/**
- * Created by Gabor on 2017. 05. 20..
- */
-
 public abstract class BudgetAppCompatActivity extends AppCompatActivity {
     protected Toolbar toolbar;
 

@@ -7,10 +7,6 @@ import com.example.gabor.mybudget.R;
 
 import java.util.List;
 
-/**
- * Created by Gabor on 2017. 05. 20..
- */
-
 public abstract class LauncherAppCompatActivity extends BudgetAppCompatActivity {
 
     /**

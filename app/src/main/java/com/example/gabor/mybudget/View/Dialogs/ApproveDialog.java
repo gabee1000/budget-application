@@ -18,13 +18,6 @@ import com.example.gabor.mybudget.R;
 import com.example.gabor.mybudget.View.Activities.LoginActivity;
 import com.example.gabor.mybudget.View.Activities.RegisterActivity;
 
-/**
- * Created by Gabor on 2017. 05. 25..
- */
-
-/**
- * Should always call setPositiveClickListener and setNegativeClickListener or the application becomes unstable!
- */
 public class ApproveDialog extends BudgetAppDialog {
     private DialogInterface.OnClickListener mNegativeClickListener;
 

@@ -17,10 +17,6 @@ import com.example.gabor.mybudget.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Gabor on 2017. 05. 20..
- */
-
 public class RegisterActivity extends LauncherAppCompatActivity {
     private Button mRegisterToDbButton;
     private UserDatabaseHandler mUserDBHandler;

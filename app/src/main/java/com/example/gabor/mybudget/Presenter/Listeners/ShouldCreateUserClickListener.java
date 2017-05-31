@@ -9,10 +9,6 @@ import com.example.gabor.mybudget.Model.Constants.Constants;
 import com.example.gabor.mybudget.View.Activities.LoginActivity;
 import com.example.gabor.mybudget.View.Activities.RegisterActivity;
 
-/**
- * Created by Gabor on 2017. 05. 25..
- */
-
 public class ShouldCreateUserClickListener implements DialogInterface.OnClickListener {
     private final Context context;
     private final EditText user;

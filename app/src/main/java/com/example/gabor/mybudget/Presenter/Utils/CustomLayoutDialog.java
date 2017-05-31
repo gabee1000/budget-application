@@ -13,10 +13,6 @@ import com.example.gabor.mybudget.R;
 
 import java.util.List;
 
-/**
- * Created by Gabor on 2017. 05. 26..
- */
-
 public abstract class CustomLayoutDialog extends DialogFragment {
     protected View dialogView;
     private int mResId;

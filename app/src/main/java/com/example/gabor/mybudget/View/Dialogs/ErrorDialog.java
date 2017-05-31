@@ -9,9 +9,6 @@ import android.support.v4.content.res.ResourcesCompat;
 import com.example.gabor.mybudget.Presenter.Utils.BudgetAppDialog;
 import com.example.gabor.mybudget.R;
 
-/**
- * Always call the setPositiveClickListener or the application becomes unstable!
- */
 public class ErrorDialog extends InfoDialog {
 
     @Override

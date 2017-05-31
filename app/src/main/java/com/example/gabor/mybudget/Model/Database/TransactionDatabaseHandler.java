@@ -14,10 +14,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-/**
- * Created by Gabor on 2017. 05. 22..
- */
-
 public class TransactionDatabaseHandler extends DatabaseHandler {
     private static final String TABLE_NAME = "transaction_table";
     private static final String ID_KEY = "id_key";

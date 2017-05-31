@@ -7,10 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.List;
 
-/**
- * Created by Gabor on 2017. 05. 20..
- */
-
 public abstract class DatabaseHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "budgets_db";
     private static final int DB_VERSION = 1;

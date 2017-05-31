@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Költségvetésem</string>
+    <string name="register">Regisztrálás</string>
+    <string name="new_user_name">Új felhasználónév</string>
+    <string name="new_password">Új jelszó</string>
+    <string name="user_name">Felhasználónév</string>
+    <string name="password">Jelszó</string>
+    <string name="login">Bejelentkezés</string>
+    <string name="required_field">Kötelező mező!</string>
+    <string name="error">Hiba</string>
+    <string name="username_does_not_exist">Ez a felhasználónév nem létezik! Szeretnél regisztrálni?</string>
+    <string name="yes">Igen</string>
+    <string name="no">Nem</string>
+    <string name="new_password_again">Új jelszó újra</string>
+    <string name="passwords_are_not_matching">A jelszavak nem egyeznek!</string>
+    <string name="my_budget">Költségvetésem</string>
+    <string name="new_transaction">Új tranzakció</string>
+    <string name="items">Termékek</string>
+    <string name="show_transactions">Tranzakciók mutatása</string>
+    <string name="statistics">Statisztikák</string>
+    <string name="ok">OKÉ</string>
+    <string name="cancel">Mégse</string>
+    <string name="create_user">Felhasználó létrehozása</string>
+    <string name="incorrect_password">Hibás jelszó!</string>
+    <string name="add_new_item">Új termék hozzáadása</string>
+    <string name="name">Név</string>
+    <string name="category_name">Kategória neve</string>
+    <string name="value">Érték</string>
+    <string name="is_income">Bevétel</string>
+    <string name="item_already_exists">A termék már létezik!</string>
+    <string name="the_item">A termék</string>
+    <string name="already_exists_in_the_db">már létezik az adatbázisban!</string>
+    <string name="fields_were_missing">Néhány mező hiányzott a termék létrehozásához!</string>
+    <string name="edit_item">Termék szerkesztése</string>
+    <string name="item_name">Termék neve</string>
+    <string name="some_fields_were_missing_transaction">Néhány mező hiányzott a tranzakció létrehozásához!</string>
+    <string name="pick_a_date">Válassz dátumot</string>
+    <string name="current_time">Aktuális dátum</string>
+    <string name="total_income">Teljes bevétel:</string>
+    <string name="total_expense">Teljes költség:</string>
+    <string name="gross_profit">Bruttó nyereség:</string>
+    <string name="transactions">Tranzakciók</string>
+    <string name="currency">Valuta:</string>
+    <string name="huf">HUF</string>
+    <string name="log_out">Kijelentkezés</string>
+
+    <string-array name="months">
+        <item>Január</item>
+        <item>Február</item>
+        <item>Március</item>
+        <item>Április</item>
+        <item>Május</item>
+        <item>Június</item>
+        <item>Július</item>
+        <item>Augusztus</item>
+        <item>Szeptember</item>
+        <item>Október</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+</resources>

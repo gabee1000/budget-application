@@ -17,7 +17,9 @@ import com.example.gabor.mybudget.Presenter.Utils.SignedInAppCompatActivity;
 import com.example.gabor.mybudget.R;
 import com.example.gabor.mybudget.View.Dialogs.NewItemDialog;
 
-// TODO When inserting anything to DB, use toLowerCase() method on everything to check for existing names in DB.
+// TODO When inserting anything to DB, use toLowerCase() method on strings to avoid duplicate names in DB.
+
+// TODO Deletion of items.
 
 public class ItemsActivity extends SignedInAppCompatActivity implements ResultListener {
     private ListView mListView;
@@ -127,7 +129,7 @@ public class ItemsActivity extends SignedInAppCompatActivity implements ResultLi
             long value = bundle.getLong(Constants.Extra.VALUE);
             boolean isIncome = bundle.getBoolean(Constants.Extra.IS_INCOME);
 
-            if (itemDBHandler.getItem(itemName) != null) {
+            if (itemDBHandler.getItem(itemName) != null && code == Constants.ResultCodes.NEW_ITEM_REQUEST) {
                 showErrorDialog(getString(R.string.the_item) + " [" + itemName + "] " + getString(R.string.already_exists_in_the_db));
                 return false;
             }

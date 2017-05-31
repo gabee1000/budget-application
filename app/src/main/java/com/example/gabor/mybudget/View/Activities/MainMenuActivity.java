@@ -16,10 +16,6 @@ import com.example.gabor.mybudget.Presenter.Utils.SignedInAppCompatActivity;
 import com.example.gabor.mybudget.R;
 import com.example.gabor.mybudget.View.Dialogs.TransactionDialog;
 
-/**
- * Created by Gabor on 2017. 05. 20..
- */
-
 public class MainMenuActivity extends SignedInAppCompatActivity implements ResultListener {
     private GridView mMenuGridView;
     private MainMenuGridAdapter mMainMenuGridAdapter;

@@ -19,22 +19,24 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_marginTop="40dp"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:text="@string/my_budget"
                 android:textColor="@color/colorLargeBlackText"
-                android:text="@string/my_budget" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="10dp"
                 android:src="@drawable/logo" />
         </LinearLayout>
 
@@ -42,9 +44,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
-            android:orientation="vertical"
+            android:layout_marginRight="40dp"
             android:gravity="center"
-            android:layout_marginRight="40dp">
+            android:orientation="vertical">
 
             <include
                 android:id="@+id/form_login"

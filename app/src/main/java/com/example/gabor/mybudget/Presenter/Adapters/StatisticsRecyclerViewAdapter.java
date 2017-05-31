@@ -9,10 +9,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-/**
- * Created by Gabor on 2017. 05. 29..
- */
-
 public class StatisticsRecyclerViewAdapter extends TransactionRecyclerViewAdapter {
     private int mMonth;
     private List<CategoryAndValue> mCategoryAndValueDataSet;

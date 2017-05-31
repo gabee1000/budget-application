@@ -15,10 +15,6 @@ import com.example.gabor.mybudget.R;
 
 import java.util.Calendar;
 
-/**
- * Created by Gabor on 2017. 05. 29..
- */
-
 public class YearPickerDialog extends DialogFragment{
 
     private DatePickerDialog.OnDateSetListener listener;

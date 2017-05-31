@@ -10,10 +10,6 @@ import android.widget.TextView;
 
 import com.example.gabor.mybudget.R;
 
-/**
- * Created by Gabor on 2017. 05. 21..
- */
-
 public class MainMenuGridAdapter extends BaseAdapter {
     public final GridItemResources mGridItemResources;
     private Context mContext;

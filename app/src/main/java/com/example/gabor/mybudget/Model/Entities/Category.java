@@ -3,10 +3,6 @@ package com.example.gabor.mybudget.Model.Entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by Gabor on 2017. 05. 29..
- */
-
 public class Category implements Parcelable {
     private long id;
     private String name;

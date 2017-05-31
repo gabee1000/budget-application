@@ -10,10 +10,6 @@ import com.example.gabor.mybudget.Model.Database.ItemDatabaseHandler;
 import com.example.gabor.mybudget.Model.Entities.Item;
 import com.example.gabor.mybudget.Presenter.Utils.SignedInAppCompatActivity;
 
-/**
- * Created by Gabor on 2017. 05. 28..
- */
-
 public class ItemLoader implements TextWatcher {
 
     private final EditText categoryET;

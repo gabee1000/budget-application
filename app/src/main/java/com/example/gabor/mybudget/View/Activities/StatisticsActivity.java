@@ -15,10 +15,6 @@ import com.example.gabor.mybudget.R;
 
 import java.util.Calendar;
 
-/**
- * Created by Gabor on 2017. 05. 29..
- */
-
 public class StatisticsActivity extends TransactionsActivity implements DatePickerDialog.OnDateSetListener {
 
     private ViewPager mSummaryViewPager;

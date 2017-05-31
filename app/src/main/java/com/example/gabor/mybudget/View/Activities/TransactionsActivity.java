@@ -21,10 +21,6 @@ import com.example.gabor.mybudget.View.Dialogs.TransactionDialog;
 import com.example.gabor.mybudget.View.Dialogs.YearMonthPickerDialog;
 import com.example.gabor.mybudget.View.Dialogs.YearPickerDialog;
 
-/**
- * Created by Gabor on 2017. 05. 28..
- */
-
 public class TransactionsActivity extends SignedInAppCompatActivity implements DatePickerDialog.OnDateSetListener, ResultListener {
 
     private RecyclerView mRecyclerView;
