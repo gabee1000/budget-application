@@ -152,7 +152,6 @@ public class TransactionDialog extends CustomLayoutDialog implements DialogInter
 
     private long getGivenDateInMillis() {
         Calendar c = Calendar.getInstance();
-        Toast.makeText(getActivity(), String.valueOf(mSelectedYear) + " " + String.valueOf(mSelectMonth), Toast.LENGTH_SHORT).show();
         c.set(mSelectedYear, mSelectMonth - 1, 1);
         return c.getTimeInMillis();
     }

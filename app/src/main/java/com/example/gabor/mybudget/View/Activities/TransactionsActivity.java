@@ -21,6 +21,8 @@ import com.example.gabor.mybudget.View.Dialogs.TransactionDialog;
 import com.example.gabor.mybudget.View.Dialogs.YearMonthPickerDialog;
 import com.example.gabor.mybudget.View.Dialogs.YearPickerDialog;
 
+import java.util.Calendar;
+
 public class TransactionsActivity extends SignedInAppCompatActivity implements DatePickerDialog.OnDateSetListener, ResultListener {
 
     private RecyclerView mRecyclerView;
@@ -41,7 +43,9 @@ public class TransactionsActivity extends SignedInAppCompatActivity implements D
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mTransactionRecyclerViewAdapter = new TransactionRecyclerViewAdapter(System.currentTimeMillis());
+        long currentTime = System.currentTimeMillis();
+        mTransactionRecyclerViewAdapter = new TransactionRecyclerViewAdapter(currentTime);
+        setYearAndMonthByMillis(currentTime);
         mRecyclerView.setAdapter(mTransactionRecyclerViewAdapter);
     }
 
@@ -61,7 +65,6 @@ public class TransactionsActivity extends SignedInAppCompatActivity implements D
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_new_transaction:
-                Toast.makeText(this, SELECTED_YEAR + " " + SELECTED_MONTH, Toast.LENGTH_SHORT).show();
                 startNewTransactionDialog();
                 break;
             case R.id.pick_date:
@@ -116,5 +119,12 @@ public class TransactionsActivity extends SignedInAppCompatActivity implements D
                 showErrorDialog(getString(R.string.some_fields_were_missing_transaction));
                 break;
         }
+    }
+
+    protected void setYearAndMonthByMillis(long millis) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(millis);
+        SELECTED_YEAR = c.get(Calendar.YEAR);
+        SELECTED_MONTH = c.get(Calendar.MONTH) + 1;
     }
 }
