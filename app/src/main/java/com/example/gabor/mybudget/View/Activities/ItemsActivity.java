@@ -23,7 +23,7 @@ import com.example.gabor.mybudget.View.Dialogs.NewItemDialog;
 
 public class ItemsActivity extends SignedInAppCompatActivity implements ResultListener {
     private ListView mListView;
-//    private ItemsListBaseAdapter mAdapter;
+    //    private ItemsListBaseAdapter mAdapter;
     private ItemsListArrayAdapter mAdapter;
 
     @Override
@@ -102,7 +102,7 @@ public class ItemsActivity extends SignedInAppCompatActivity implements ResultLi
     public void onResult(int resultCode, Intent data) {
         switch (resultCode) {
             case Constants.ResultCodes.NEW_ITEM_REQUEST:
-                processNewItemRequest(data, -2);
+                processNewItemRequest(data, resultCode);
                 break;
             case Constants.ResultCodes.EMPTY_EDIT_TEXTS:
                 showErrorDialog(getString(R.string.fields_were_missing));

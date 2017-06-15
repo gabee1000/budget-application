@@ -122,14 +122,17 @@ public class ItemDatabaseHandler extends DatabaseHandler {
      * @return the number of rows affected.
      */
     public int updateItemById(Item newItem, long id) {
-        SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(ITEM_NAME, newItem.getName());
+        // Update the item_name only, when the new item name does not exist in the database!
+        if (getItem(newItem.getName()) == null) {
+            contentValues.put(ITEM_NAME, newItem.getName());
+        }
         contentValues.put(CATEGORY_ID, newItem.getCategoryId());
         contentValues.put(LAST_VALUE, newItem.getLastValue());
         int isIncome = newItem.isIncome() ? 1 : 0;
         contentValues.put(IS_INCOME, isIncome);
         String where = ID_KEY + " = " + id;
+        SQLiteDatabase db = getWritableDatabase();
         int numberOfRowsAffected = db.update(TABLE_NAME, contentValues, where, null);
         db.close();
         return numberOfRowsAffected;
@@ -137,6 +140,7 @@ public class ItemDatabaseHandler extends DatabaseHandler {
 
     /**
      * <p>Get a new Item list containing all of the existing items from the DB.</p>
+     *
      * @return a list containing all of the Item objects.
      */
     @SuppressWarnings("unchecked")
