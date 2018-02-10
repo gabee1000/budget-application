@@ -43,6 +43,8 @@
     <string name="currency">Currency:</string>
     <string name="huf">HUF</string>
     <string name="log_out">Log out</string>
+    <string name="delete_item">Delete item?</string>
+    <string name="warning">Warning</string>
 
     <string-array name="months">
         <item>January</item>

@@ -30,6 +30,7 @@ public final class Constants {
         public static final int EMPTY_EDIT_TEXTS = 4;
         public static final int EDIT_ITEM_REQUEST = 7;
         public static final int TRANSACTION_ADDED = 8;
+        public static final int NOTIFY_ADAPTER_DATASET_CHANGED = 9;
     }
 
     public static final class RequestCodes {

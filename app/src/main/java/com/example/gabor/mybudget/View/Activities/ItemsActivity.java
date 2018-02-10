@@ -1,5 +1,6 @@
 package com.example.gabor.mybudget.View.Activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,8 +14,12 @@ import com.example.gabor.mybudget.Model.Constants.Constants;
 import com.example.gabor.mybudget.Model.Entities.Item;
 import com.example.gabor.mybudget.Presenter.Adapters.ItemsListArrayAdapter;
 import com.example.gabor.mybudget.Presenter.Callbacks.ResultListener;
+import com.example.gabor.mybudget.Presenter.Listeners.DeleteItemListener;
+import com.example.gabor.mybudget.Presenter.Listeners.DismissDialogClickListener;
+import com.example.gabor.mybudget.Presenter.Listeners.ShouldCreateUserClickListener;
 import com.example.gabor.mybudget.Presenter.Utils.SignedInAppCompatActivity;
 import com.example.gabor.mybudget.R;
+import com.example.gabor.mybudget.View.Dialogs.ApproveDialog;
 import com.example.gabor.mybudget.View.Dialogs.NewItemDialog;
 
 // TODO When inserting anything to DB, use toLowerCase() method on strings to avoid duplicate names in DB.
@@ -46,6 +51,18 @@ public class ItemsActivity extends SignedInAppCompatActivity implements ResultLi
                 Item item = mAdapter.mItemList.get(position);
                 data.putExtra(Constants.Extra.ITEM, item);
                 inflateNewItemDialog(Constants.RequestCodes.INFLATE_ITEM_EDITOR, data);
+            }
+        });
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                ApproveDialog approveDialog = new ApproveDialog();
+                approveDialog.setNegativeClickListener(new DismissDialogClickListener(approveDialog))
+                        .setTitle(getString(R.string.warning))
+                        .setMessage(getString(R.string.delete_item))
+                        .setPositiveClickListener(new DeleteItemListener(ItemsActivity.this, mAdapter.getItem(position)));
+                approveDialog.show(getFragmentManager(), "delete");
+                return true;
             }
         });
     }
@@ -109,6 +126,9 @@ public class ItemsActivity extends SignedInAppCompatActivity implements ResultLi
                 break;
             case Constants.ResultCodes.EDIT_ITEM_REQUEST:
                 processNewItemRequest(data, resultCode);
+                break;
+            case Constants.ResultCodes.NOTIFY_ADAPTER_DATASET_CHANGED:
+                mAdapter.notifyDBChanged();
                 break;
             default:
                 break;

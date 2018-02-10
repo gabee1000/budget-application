@@ -42,6 +42,7 @@ public class CategoryDatabaseHandler extends DatabaseHandler {
 
     /**
      * <p>Get the specified category name's unique ID.</p>
+     *
      * @param categoryName
      * @return The ID of the category, or -1 if this category does not exist.
      */
@@ -50,8 +51,8 @@ public class CategoryDatabaseHandler extends DatabaseHandler {
         long id = -1;
         Cursor cursor = db.rawQuery(
                 "SELECT " + ID_KEY +
-                " FROM " + TABLE_NAME +
-                " WHERE " + CATEGORY_NAME + " = '" + categoryName + "'", null);
+                        " FROM " + TABLE_NAME +
+                        " WHERE " + CATEGORY_NAME + " = '" + categoryName + "'", null);
         if (cursor.moveToFirst()) {
             id = cursor.getLong(cursor.getColumnIndexOrThrow(ID_KEY));
         }
@@ -62,6 +63,7 @@ public class CategoryDatabaseHandler extends DatabaseHandler {
 
     /**
      * <p>Get a new Category list containing all of the existing category names from the DB.</p>
+     *
      * @return a list containing all of the Category names.
      */
     @SuppressWarnings("unchecked")
@@ -88,6 +90,7 @@ public class CategoryDatabaseHandler extends DatabaseHandler {
 
     /**
      * <p>Get the category name by ID.</p>
+     *
      * @param categoryId ID of the category to query
      * @return Name of the category, or null if the category does not exist.
      */
@@ -95,8 +98,8 @@ public class CategoryDatabaseHandler extends DatabaseHandler {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(
                 "SELECT " + CATEGORY_NAME
-                + " FROM " + TABLE_NAME
-                + " WHERE " + ID_KEY + " = " + categoryId, null);
+                        + " FROM " + TABLE_NAME
+                        + " WHERE " + ID_KEY + " = " + categoryId, null);
         String categoryName = null;
         if (cursor.moveToFirst()) {
             categoryName = cursor.getString(cursor.getColumnIndexOrThrow(CATEGORY_NAME));
@@ -107,12 +110,15 @@ public class CategoryDatabaseHandler extends DatabaseHandler {
     }
 
     public int updateCategoryById(String newCategoryName, long id) {
-        SQLiteDatabase db = getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(CATEGORY_NAME, newCategoryName);
-        String where = ID_KEY + " = " + id;
-        int numberOfRowsAffected = db.update(TABLE_NAME, contentValues, where, null);
-        db.close();
+        int numberOfRowsAffected = 0;
+        if (getCategoryId(newCategoryName) == -1) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(CATEGORY_NAME, newCategoryName);
+            String where = ID_KEY + " = " + id;
+            SQLiteDatabase db = getWritableDatabase();
+            numberOfRowsAffected = db.update(TABLE_NAME, contentValues, where, null);
+            db.close();
+        }
         return numberOfRowsAffected;
     }
 }

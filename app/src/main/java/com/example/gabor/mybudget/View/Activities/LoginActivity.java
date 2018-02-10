@@ -1,6 +1,9 @@
 package com.example.gabor.mybudget.View.Activities;
 
 import android.content.Intent;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -110,6 +113,13 @@ public class LoginActivity extends LauncherAppCompatActivity {
         String name = mUserName.getText().toString();
         String password = mPassword.getText().toString();
         if (mUserDBHandler.authenticate(name, password)) {
+            try {
+                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+                r.play();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
             intent.putExtra(Constants.Extra.LOGGED_IN_USER, name);
             startActivity(intent);
